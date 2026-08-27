@@ -1,0 +1,1799 @@
+/* =========================================================
+   DHAAGA — COMPLETE APP STYLES
+   HOME + EXPLORE
+   ========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f6efe3;
+  color: #3b2418;
+}
+
+button {
+  font-family: inherit;
+}
+
+a {
+  text-decoration: none;
+}
+
+
+/* =========================================================
+   HOME PAGE
+   ========================================================= */
+
+.app {
+  min-height: 100vh;
+  background: #f6efe3;
+  color: #3b2418;
+}
+
+
+/* =========================================================
+   NAVBAR
+   ========================================================= */
+
+.navbar {
+  height: 82px;
+
+  padding: 0 6%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  border-bottom: 1px solid #d8c8b5;
+
+  background: #f6efe3;
+}
+
+.logo {
+  font-size: 25px;
+
+  font-weight: 800;
+
+  letter-spacing: 5px;
+
+  color: #3b2418;
+}
+
+.nav-links {
+  display: flex;
+
+  align-items: center;
+
+  gap: 35px;
+}
+
+.nav-links a {
+  color: #3b2418;
+
+  font-size: 14px;
+
+  transition: opacity 0.2s ease;
+}
+
+.nav-links a:hover {
+  opacity: 0.55;
+}
+
+.nav-button {
+  padding: 11px 18px;
+
+  border: 1px solid #3b2418;
+
+  background: transparent;
+
+  color: #3b2418;
+
+  cursor: pointer;
+
+  transition: all 0.25s ease;
+}
+
+.nav-button:hover {
+  background: #3b2418;
+
+  color: #ffffff;
+}
+
+
+/* =========================================================
+   HOME HERO
+   ========================================================= */
+
+.hero {
+  min-height: 610px;
+
+  display: grid;
+
+  grid-template-columns: 55% 45%;
+}
+
+
+/* LEFT SIDE */
+
+.hero-content {
+  padding: 80px 10%;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+  background: #f6efe3;
+}
+
+
+/* Small label */
+
+.eyebrow {
+  margin: 0 0 25px;
+
+  color: #3b2418;
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  letter-spacing: 3px;
+}
+
+
+/* Main heading */
+
+.hero h1 {
+  margin: 0;
+
+  color: #3b2418;
+
+  font-family: Georgia, "Times New Roman", serif;
+
+  font-size: clamp(55px, 6vw, 90px);
+
+  font-weight: 700;
+
+  line-height: 0.92;
+
+  letter-spacing: -4px;
+}
+
+
+/* Italic heading */
+
+.hero h1 em {
+  font-family: Georgia, "Times New Roman", serif;
+
+  font-style: italic;
+
+  font-weight: 400;
+
+  color: #b84f32;
+}
+
+
+/* Description */
+
+.hero-description {
+  max-width: 540px;
+
+  margin: 32px 0 0;
+
+  color: #665448;
+
+  font-size: 16px;
+
+  line-height: 1.7;
+}
+
+
+/* =========================================================
+   HOME BUTTONS
+   ========================================================= */
+
+.hero-buttons {
+  display: flex;
+
+  gap: 14px;
+
+  margin-top: 30px;
+}
+
+.primary-button {
+  padding: 15px 23px;
+
+  border: 1px solid #b84f32;
+
+  background: #b84f32;
+
+  color: #ffffff;
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: all 0.25s ease;
+}
+
+.primary-button:hover {
+  background: #963e28;
+
+  border-color: #963e28;
+}
+
+.secondary-button {
+  padding: 15px 23px;
+
+  border: 1px solid #3b2418;
+
+  background: transparent;
+
+  color: #3b2418;
+
+  font-size: 13px;
+
+  cursor: pointer;
+
+  transition: all 0.25s ease;
+}
+
+.secondary-button:hover {
+  background: #3b2418;
+
+  color: #ffffff;
+}
+
+
+/* =========================================================
+   HOME HERO IMAGE
+   ========================================================= */
+
+.hero-image {
+  min-height: 610px;
+
+  display: flex;
+
+  align-items: flex-end;
+
+  padding: 45px;
+
+  background-image:
+    linear-gradient(
+      rgba(40, 25, 17, 0.08),
+      rgba(40, 25, 17, 0.52)
+    ),
+    url("./assets/nirmal-toys.jpg");
+
+  background-size: cover;
+
+  background-position: center;
+}
+
+
+/* Craft information card */
+
+.craft-card {
+  width: 100%;
+
+  padding: 25px;
+
+  background: rgba(45, 28, 20, 0.88);
+
+  color: #ffffff;
+
+  backdrop-filter: blur(3px);
+}
+
+.card-label {
+  margin: 0 0 10px;
+
+  color: #e2c9b8;
+
+  font-size: 10px;
+
+  letter-spacing: 3px;
+}
+
+.craft-card h2 {
+  margin: 0 0 8px;
+
+  font-family: Georgia, "Times New Roman", serif;
+
+  font-size: 29px;
+
+  font-weight: 500;
+}
+
+.craft-card p {
+  margin: 5px 0;
+
+  color: #eee2d7;
+
+  font-size: 14px;
+}
+
+.craft-card button {
+  margin-top: 20px;
+
+  padding: 10px 16px;
+
+  border: 1px solid #e6d4c7;
+
+  background: transparent;
+
+  color: #ffffff;
+
+  cursor: pointer;
+
+  transition: all 0.25s ease;
+}
+
+.craft-card button:hover {
+  background: #ffffff;
+
+  color: #3b2418;
+}
+
+
+/* =========================================================
+   HOME INTRO STRIP
+   ========================================================= */
+
+.intro-strip {
+  display: grid;
+
+  grid-template-columns: repeat(4, 1fr);
+
+  border-top: 1px solid #d8c8b5;
+
+  background: #f6efe3;
+}
+
+.intro-strip div {
+  min-height: 105px;
+
+  padding: 25px 30px;
+
+  border-right: 1px solid #d8c8b5;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+}
+
+.intro-strip div:last-child {
+  border-right: none;
+}
+
+.intro-strip strong {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #3b2418;
+
+  font-size: 11px;
+
+  letter-spacing: 2px;
+}
+
+.intro-strip span {
+  color: #76665a;
+
+  font-size: 13px;
+
+  line-height: 1.4;
+}
+
+
+/* =========================================================
+   EXPLORE PAGE
+   ========================================================= */
+
+.explore-page {
+  min-height: 100vh;
+
+  width: 100%;
+
+  background: #f6efe3;
+
+  color: #3b2418;
+}
+
+
+/* =========================================================
+   EXPLORE HERO
+   ========================================================= */
+
+.explore-header {
+  min-height: 700px;
+
+  padding: 80px 7% 90px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+  align-items: center;
+
+  text-align: center;
+
+  border-bottom: 1px solid #d8c8b5;
+}
+
+.explore-header > p:first-child {
+  margin: 0 0 40px;
+
+  color: #3b2418;
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  letter-spacing: 5px;
+
+  text-transform: uppercase;
+}
+
+.explore-header h1 {
+  margin: 0;
+
+  max-width: 1000px;
+
+  color: #3b2418;
+
+  font-family: Georgia, "Times New Roman", serif;
+
+  font-size: clamp(65px, 8vw, 115px);
+
+  font-weight: 700;
+
+  line-height: 0.88;
+
+  letter-spacing: -5px;
+}
+
+.explore-header h1 em {
+  display: block;
+
+  margin: 8px 0;
+
+  color: #b84f32;
+
+  font-family: Georgia, "Times New Roman", serif;
+
+  font-style: italic;
+
+  font-weight: 400;
+}
+
+.explore-header > p:last-child {
+  max-width: 780px;
+
+  margin: 48px auto 0;
+
+  color: #514036;
+
+  font-size: 18px;
+
+  line-height: 1.6;
+}
+
+
+/* =========================================================
+   EXPLORE CRAFT SECTION
+   ========================================================= */
+
+.craft-section {
+  padding: 80px 5.5% 100px;
+
+  background: #f6efe3;
+}
+
+.section-heading {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 30px;
+
+  margin-bottom: 42px;
+}
+
+.section-heading h2 {
+  margin: 0;
+
+  color: #3b2418;
+
+  font-family: Georgia, "Times New Roman", serif;
+
+  font-size: 42px;
+
+  font-weight: 600;
+
+  letter-spacing: -1px;
+}
+
+
+/* =========================================================
+   EXPLORE FILTERS
+   ========================================================= */
+
+.filters {
+  display: flex;
+
+  align-items: center;
+
+  gap: 14px;
+
+  flex-wrap: wrap;
+}
+
+.filters button {
+  padding: 13px 22px;
+
+  min-width: 100px;
+
+  border: 1px solid #c7b6a1;
+
+  border-radius: 3px;
+
+  background: transparent;
+
+  color: #3b2418;
+
+  font-size: 14px;
+
+  cursor: pointer;
+
+  transition: all 0.25s ease;
+}
+
+.filters button:hover {
+  background: #3b2418;
+
+  border-color: #3b2418;
+
+  color: #ffffff;
+}
+
+.filters button:first-child {
+  background: #3b2418;
+
+  border-color: #3b2418;
+
+  color: #ffffff;
+}
+
+
+/* =========================================================
+   EXPLORE GRID
+   ========================================================= */
+
+.craft-grid {
+  display: grid;
+
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 22px;
+}
+
+
+/* =========================================================
+   EXPLORE CARD
+   ========================================================= */
+
+.craft-item {
+  overflow: hidden;
+
+  background: #eee3d2;
+
+  border: 1px solid #dfcfbb;
+
+  border-radius: 9px;
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.craft-item:hover {
+  transform: translateY(-6px);
+
+  box-shadow: 0 15px 30px rgba(59, 36, 24, 0.12);
+}
+
+
+/* =========================================================
+   EXPLORE IMAGE
+   ========================================================= */
+
+.craft-image {
+  position: relative;
+
+  width: 100%;
+
+  height: 300px;
+
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      135deg,
+      #8d4e35,
+      #c27b51,
+      #a45b3c
+    );
+}
+
+.craft-image img {
+  display: block;
+
+  width: 100%;
+
+  height: 100%;
+
+  object-fit: cover;
+
+  transition: transform 0.5s ease;
+}
+
+.craft-item:hover .craft-image img {
+  transform: scale(1.05);
+}
+
+.craft-image span {
+  position: absolute;
+
+  top: 15px;
+
+  left: 15px;
+
+  z-index: 2;
+
+  padding: 8px 12px;
+
+  border-radius: 3px;
+
+  background: rgba(59, 36, 24, 0.94);
+
+  color: #ffffff;
+
+  font-size: 10px;
+
+  font-weight: 600;
+
+  letter-spacing: 1px;
+
+  text-transform: uppercase;
+}
+
+
+/* =========================================================
+   EXPLORE CARD INFORMATION
+   ========================================================= */
+
+.craft-info {
+  padding: 22px;
+}
+
+.craft-info > p {
+  margin: 0 0 9px;
+
+  color: #a35438;
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+  letter-spacing: 1.7px;
+
+  text-transform: uppercase;
+}
+
+.craft-info h3 {
+  margin: 0 0 12px;
+
+  color: #3b2418;
+
+  font-family: Georgia, "Times New Roman", serif;
+
+  font-size: 25px;
+
+  font-weight: 600;
+
+  line-height: 1.15;
+}
+
+.craft-info > span {
+  display: block;
+
+  max-width: 500px;
+
+  color: #665348;
+
+  font-size: 13px;
+
+  line-height: 1.6;
+}
+
+.craft-info button {
+  margin-top: 19px;
+
+  padding: 10px 15px;
+
+  border: 1px solid #3b2418;
+
+  border-radius: 3px;
+
+  background: transparent;
+
+  color: #3b2418;
+
+  font-size: 12px;
+
+  cursor: pointer;
+
+  transition: all 0.25s ease;
+}
+
+.craft-info button:hover {
+  background: #3b2418;
+
+  color: #ffffff;
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1100px) {
+
+  .craft-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .hero h1 {
+    font-size: 65px;
+  }
+
+  .explore-header h1 {
+    font-size: 82px;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+  /* HOME */
+
+  .navbar {
+    height: 70px;
+
+    padding: 0 5%;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .nav-button {
+    padding: 9px 12px;
+
+    font-size: 12px;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-content {
+    padding: 65px 8%;
+  }
+
+  .hero h1 {
+    font-size: 58px;
+
+    letter-spacing: -3px;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+
+    align-items: flex-start;
+  }
+
+  .hero-image {
+    min-height: 500px;
+
+    padding: 25px;
+  }
+
+  .intro-strip {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .intro-strip div {
+    min-height: 100px;
+
+    padding: 20px;
+  }
+
+
+  /* EXPLORE */
+
+  .explore-header {
+    min-height: 600px;
+
+    padding: 60px 7%;
+  }
+
+  .explore-header > p:first-child {
+    font-size: 10px;
+
+    letter-spacing: 3px;
+
+    margin-bottom: 30px;
+  }
+
+  .explore-header h1 {
+    font-size: 58px;
+
+    letter-spacing: -3px;
+
+    line-height: 0.92;
+  }
+
+  .explore-header > p:last-child {
+    margin-top: 35px;
+
+    font-size: 15px;
+  }
+
+  .craft-section {
+    padding: 55px 6%;
+  }
+
+  .section-heading {
+    flex-direction: column;
+
+    align-items: flex-start;
+  }
+
+  .section-heading h2 {
+    font-size: 35px;
+  }
+
+  .filters {
+    width: 100%;
+  }
+
+  .filters button {
+    min-width: auto;
+
+    padding: 10px 15px;
+  }
+
+  .craft-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .craft-image {
+    height: 280px;
+  }
+}
+/* =====================================================
+   DHAAGA — CRAFT STORY PAGE
+   ===================================================== */
+
+.story-page {
+  min-height: 100vh;
+  background: #f6efe3;
+  color: #3b2418;
+}
+
+
+/* ================= NAVBAR ================= */
+
+.story-navbar {
+  height: 78px;
+  padding: 0 6%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background: #f6efe3;
+  border-bottom: 1px solid #d8c8b5;
+}
+
+.story-logo {
+  color: #3b2418;
+  text-decoration: none;
+
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: 5px;
+}
+
+.story-nav-links {
+  display: flex;
+  gap: 35px;
+}
+
+.story-nav-links a {
+  color: #4d382b;
+  text-decoration: none;
+
+  font-size: 14px;
+}
+
+.story-nav-links a:hover {
+  color: #b84f32;
+}
+
+.story-nav-button {
+  padding: 11px 18px;
+
+  background: transparent;
+  border: 1px solid #3b2418;
+
+  color: #3b2418;
+
+  cursor: pointer;
+}
+
+
+/* ================= HERO ================= */
+
+.story-hero {
+  min-height: 620px;
+
+  display: grid;
+  grid-template-columns: 50% 50%;
+}
+
+
+/* ================= CRAFT IMAGE ================= */
+
+.story-image {
+  position: relative;
+  width: 100%;
+  min-height: 620px;
+  overflow: hidden;
+  background: #d9c3a5;
+}
+
+.story-image img {
+  width: 100%;
+  height: 100%;
+  min-height: 620px;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.story-image-label {
+  position: absolute;
+  bottom: 30px;
+  left: 30px;
+  background: #4b3022;
+  color: #fff;
+  padding: 12px 18px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2px;
+}
+
+
+/* ================= HERO TEXT ================= */
+
+.story-intro {
+  padding: 70px 9%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.story-location {
+  margin: 0 0 22px;
+
+  color: #a35438;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 2px;
+}
+
+.story-intro h1 {
+  margin: 0;
+
+  font-family: Georgia, "Times New Roman", serif;
+
+  font-size: clamp(58px, 7vw, 95px);
+
+  line-height: 0.88;
+
+  letter-spacing: -4px;
+}
+
+.story-intro h1 em {
+  color: #b84f32;
+
+  font-weight: 400;
+}
+
+.story-summary {
+  max-width: 520px;
+
+  margin: 32px 0 0;
+
+  color: #665448;
+
+  font-size: 16px;
+
+  line-height: 1.7;
+}
+
+.story-tags {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 9px;
+
+  margin-top: 25px;
+}
+
+.story-tags span {
+  padding: 8px 12px;
+
+  border: 1px solid #cdbba7;
+
+  color: #5b473a;
+
+  font-size: 10px;
+}
+
+
+/* ================= STORY SECTION ================= */
+
+.story-content {
+  padding: 100px 8%;
+
+  display: grid;
+
+  grid-template-columns: 1fr 360px;
+
+  gap: 100px;
+
+  border-top: 1px solid #d8c8b5;
+}
+
+.story-main {
+  max-width: 720px;
+}
+
+.story-eyebrow {
+  margin: 0 0 22px;
+
+  color: #a35438;
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+  letter-spacing: 2px;
+}
+
+.story-main h2,
+.heritage-section h2 {
+  margin: 0 0 32px;
+
+  font-family: Georgia, "Times New Roman", serif;
+
+  font-size: clamp(44px, 5vw, 68px);
+
+  line-height: 0.95;
+
+  letter-spacing: -2px;
+}
+
+.story-main h2 em,
+.heritage-section h2 em {
+  color: #b84f32;
+
+  font-weight: 400;
+}
+
+.story-main > p:not(.story-eyebrow) {
+  margin-bottom: 24px;
+
+  color: #5f5045;
+
+  font-size: 15px;
+
+  line-height: 1.8;
+}
+
+
+/* ================= ARTISAN CARD ================= */
+
+.artisan-card {
+  padding: 32px;
+
+  align-self: start;
+
+  background: #e9dccb;
+
+  border: 1px solid #d7c5af;
+}
+
+.artisan-label {
+  margin: 0 0 24px;
+
+  color: #a35438;
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+  letter-spacing: 2px;
+}
+
+.artisan-avatar {
+  width: 65px;
+  height: 65px;
+
+  margin-bottom: 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #b84f32;
+
+  color: white;
+
+  font-family: Georgia, "Times New Roman", serif;
+
+  font-size: 28px;
+}
+
+.artisan-card h3 {
+  margin: 0 0 5px;
+
+  font-family: Georgia, "Times New Roman", serif;
+
+  font-size: 27px;
+}
+
+.artisan-location {
+  margin: 0;
+
+  color: #a35438;
+
+  font-size: 12px;
+}
+
+.artisan-description {
+  margin: 20px 0;
+
+  color: #665448;
+
+  font-size: 13px;
+
+  line-height: 1.6;
+}
+
+.artisan-details {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 15px;
+
+  padding: 18px 0;
+
+  border-top: 1px solid #cdbba7;
+  border-bottom: 1px solid #cdbba7;
+}
+
+.artisan-details div {
+  display: flex;
+  flex-direction: column;
+
+  gap: 6px;
+}
+
+.artisan-details strong {
+  color: #a35438;
+
+  font-size: 9px;
+
+  letter-spacing: 1px;
+}
+
+.artisan-details span {
+  color: #4d3a2e;
+
+  font-size: 12px;
+}
+
+.support-button {
+  width: 100%;
+
+  margin-top: 20px;
+
+  padding: 13px;
+
+  background: #3b2418;
+  border: 1px solid #3b2418;
+
+  color: white;
+
+  cursor: pointer;
+
+  font-size: 12px;
+
+  transition: 0.2s ease;
+}
+
+.support-button:hover {
+  background: #b84f32;
+  border-color: #b84f32;
+}
+
+
+/* ================= WHY IT MATTERS ================= */
+
+.heritage-section {
+  padding: 100px 8%;
+
+  background: #3b2418;
+
+  color: #f6efe3;
+}
+
+.heritage-section .story-eyebrow {
+  color: #d59a78;
+}
+
+.heritage-section h2 {
+  color: #f6efe3;
+}
+
+.heritage-section h2 em {
+  color: #d78664;
+}
+
+.heritage-grid {
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 50px;
+
+  margin-top: 65px;
+}
+
+.heritage-grid > div {
+  padding-top: 20px;
+
+  border-top: 1px solid rgba(246, 239, 227, 0.3);
+}
+
+.heritage-grid span {
+  color: #d59a78;
+
+  font-size: 10px;
+}
+
+.heritage-grid h3 {
+  margin: 17px 0 9px;
+
+  font-family: Georgia, "Times New Roman", serif;
+
+  font-size: 27px;
+}
+
+.heritage-grid p {
+  margin: 0;
+
+  color: #d8c9bc;
+
+  font-size: 13px;
+
+  line-height: 1.7;
+}
+
+
+/* ================= FOOTER ================= */
+
+.story-footer {
+  padding: 35px 6%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background: #2d1b13;
+
+  color: #d8c9bc;
+}
+
+.story-footer .story-logo {
+  color: #f6efe3;
+}
+
+.story-footer p {
+  margin: 0;
+
+  font-size: 11px;
+}
+
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 800px) {
+
+  .story-nav-links {
+    display: none;
+  }
+
+  .story-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .story-image {
+    min-height: 420px;
+  }
+
+  .story-intro {
+    padding: 60px 8%;
+  }
+
+  .story-content {
+    grid-template-columns: 1fr;
+
+    gap: 50px;
+
+    padding: 70px 8%;
+  }
+
+  .heritage-grid {
+    grid-template-columns: 1fr;
+
+    gap: 40px;
+  }
+
+  .story-footer {
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 15px;
+  }
+}
+/* =========================
+   CULTURAL MAP
+========================= */
+
+.map-page {
+  min-height: 100vh;
+  background: #f5eee3;
+  color: #3b2115;
+}
+
+.map-header {
+  text-align: center;
+  padding: 90px 8% 60px;
+  border-bottom: 1px solid #d8c7b2;
+}
+
+.map-header h1 {
+  font-family: Georgia, serif;
+  font-size: clamp(60px, 8vw, 110px);
+  line-height: 0.9;
+  margin: 25px 0;
+  color: #3b2115;
+}
+
+.map-header h1 em {
+  color: #b94f32;
+  font-weight: normal;
+}
+
+.map-header p:last-child {
+  max-width: 650px;
+  margin: 30px auto 0;
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.map-container-section {
+  display: grid;
+  grid-template-columns: 35% 65%;
+  min-height: 650px;
+}
+
+.map-info {
+  padding: 60px 50px;
+  border-right: 1px solid #d8c7b2;
+}
+
+.map-info h2 {
+  font-family: Georgia, serif;
+  font-size: 38px;
+  margin-bottom: 15px;
+}
+
+.map-info > p {
+  line-height: 1.7;
+  color: #6d5748;
+  margin-bottom: 35px;
+}
+
+.map-craft-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.map-craft-item {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  grid-template-rows: 16px 64px 32px;
+  column-gap: 12px;
+  align-items: center;
+  width: 100%;
+  min-height: 136px;
+  box-sizing: border-box;
+  padding: 12px;
+  border: 1px solid #d5c2ab;
+  background: #f8f1e7;
+  color: #3b2115;
+  text-align: left;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.map-craft-item:hover {
+  border-color: #b94f32;
+  box-shadow: inset 4px 0 #b94f32;
+}
+
+.map-craft-item.selected {
+  border-color: #b94f32;
+  background: #efe0ce;
+  box-shadow: inset 4px 0 #b94f32;
+}
+
+.map-craft-item img {
+  grid-row: 1 / span 3;
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.map-craft-item span {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #b94f32;
+}
+
+.map-craft-item h3 {
+  margin: 0;
+  min-width: 0;
+  font-family: Georgia, serif;
+  font-size: 18px;
+  line-height: 1.15;
+}
+
+.map-craft-item p {
+  margin: 0;
+  min-width: 0;
+  color: #725e50;
+  font-size: 14px;
+  line-height: 1.25;
+}
+
+.map-wrapper {
+  min-height: 650px;
+}
+
+.actual-map {
+  width: 100%;
+  height: 100%;
+  min-height: 650px;
+}
+/* Fix map heading visibility */
+h2 {
+  color: #3d2314;
+}
+/* Fix craft card heading text visibility */
+.craft-card h2 {
+  color: #ffffff !important;
+}
+.hero-image {
+  background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.65)),
+    url("./assets/nirmal-toys.jpg") center/cover no-repeat !important;
+  border-radius: 12px;
+  min-height: 450px;
+  display: flex;
+  align-items: flex-end;
+}
+/* FORCE HERO IMAGE BACKGROUND */
+.hero-image {
+  background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7)),
+    url("./assets/nirmal-toys.jpg") center/cover no-repeat !important;
+  border-radius: 12px;
+  min-height: 450px !important;
+  display: flex !important;
+  align-items: flex-end !important;
+  overflow: hidden;
+}
+/* Custom Earthy Nirmal Craft Banner Styling */
+.hero-image {
+  border-radius: 12px;
+  min-height: 450px !important;
+  display: flex !important;
+  align-items: flex-end !important;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 8px 24px rgba(61, 35, 20, 0.12);
+}
+
+.hero-image .craft-card {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+/* Fix craft story title visibility */
+
+.story-intro h1 {
+  color: #3f2418;
+}
+
+.story-intro h1 em {
+  color: #c65332;
+}
+/* Craft story information tags */
+
+.story-tags {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 28px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.story-tags span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  min-height: 38px;
+  box-sizing: border-box;
+
+  border: 1px solid #cdb9a5;
+  background: #f6efe4;
+  color: #3f2418;
+
+  font-size: 12px;
+  font-family: Arial, sans-serif;
+  letter-spacing: 0.5px;
+  text-transform: none;
+}
+/* =========================
+   SUPPORT ARTISAN MODAL
+========================= */
+
+.support-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(45, 28, 20, 0.55);
+  padding: 20px;
+}
+
+.support-modal {
+  position: relative;
+
+  width: min(620px, 100%);
+  max-height: 90vh;
+  overflow-y: auto;
+
+  background: #f7efe4;
+  color: #3f2418;
+
+  padding: 45px;
+
+  box-shadow: 0 20px 60px rgba(40, 20, 10, 0.25);
+}
+
+.close-support {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+
+  border: none;
+  background: transparent;
+
+  font-size: 30px;
+  color: #3f2418;
+
+  cursor: pointer;
+}
+
+.support-modal h2 {
+  font-family: Georgia, serif;
+  font-size: 38px;
+  margin: 10px 0 15px;
+}
+
+.support-modal > p {
+  line-height: 1.7;
+  color: #6d5748;
+}
+
+.collection-card {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+
+  margin-top: 30px;
+
+  border: 1px solid #d5c2ab;
+  background: #fffaf3;
+}
+
+.collection-image {
+  min-height: 190px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #d8c1a4;
+
+  color: #3f2418;
+
+  font-family: Georgia, serif;
+  font-size: 18px;
+
+  text-align: center;
+  padding: 15px;
+}
+
+.collection-info {
+  padding: 25px;
+}
+
+.collection-info h3 {
+  font-family: Georgia, serif;
+  font-size: 22px;
+  margin: 0 0 8px;
+}
+
+.collection-info p {
+  margin: 0 0 12px;
+  color: #6d5748;
+}
+
+.collection-info span {
+  display: block;
+
+  font-size: 12px;
+  color: #8a6d59;
+
+  margin-bottom: 20px;
+}
+
+.support-buy-button {
+  border: none;
+
+  background: #b94f32;
+  color: white;
+
+  padding: 12px 18px;
+
+  cursor: pointer;
+
+  font-size: 13px;
+}
+
+.support-buy-button:hover {
+  background: #3f2418;
+}
+
+.request-message {
+  margin-top: 20px;
+
+  padding: 15px;
+
+  background: #e8ddce;
+
+  color: #3f2418 !important;
+
+  font-size: 14px;
+}
+/* =========================
+   ARTISAN LANGUAGE OPTIONS
+========================= */
+
+.language-option,
+.language-options button,
+.language-card,
+.language-card button {
+  color: #3f2418 !important;
+}
+
+.language-options button {
+  background: #f7efe4;
+  border: 1px solid #cdb9a5;
+  padding: 14px 22px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.language-options button:hover {
+  background: #eadaca;
+  color: #3f2418 !important;
+}
+/* FIX ARTISAN LANGUAGE TEXT VISIBILITY */
+
+.language-options button,
+.language-option,
+.language-card button,
+.languages button {
+  color: #3f2418 !important;
+  -webkit-text-fill-color: #3f2418 !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+  background-color: #f7efe4 !important;
+}
+
+.language-options button:hover,
+.language-option:hover,
+.language-card button:hover,
+.languages button:hover {
+  color: #3f2418 !important;
+  -webkit-text-fill-color: #3f2418 !important;
+  opacity: 1 !important;
+}
