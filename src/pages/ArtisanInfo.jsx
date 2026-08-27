@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 
 function ArtisanInfo() {
-  const [language, setLanguage] = useState(() => localStorage.getItem("dhaaga-language") || "en");
+  const [language, setLanguage] = useState(() => ["en", "te", "hi"].includes(localStorage.getItem("dhaaga-language")) ? localStorage.getItem("dhaaga-language") : "en");
   const [isSpeaking, setIsSpeaking] = useState(false);
   const guidance = {
     en: "Partner with DHAAGA. Simple, safe, and built for traditional creators. Speak and register to share your craft story.",
     te: "DHAAGAతో చేరండి. సంప్రదాయ సృష్టికర్తల కోసం సరళమైన మరియు సురక్షితమైన వేదిక. మీ కళా కథను పంచుకోవడానికి మాట్లాడి నమోదు చేసుకోండి.",
     hi: "DHAAGA से जुड़ें। पारंपरिक रचनाकारों के लिए सरल और सुरक्षित मंच। अपनी शिल्प कहानी साझा करने के लिए बोलकर पंजीकरण करें।",
-    ta: "DHAAGA-வில் இணையுங்கள். பாரம்பரிய படைப்பாளர்களுக்கான எளிய மற்றும் பாதுகாப்பான தளம். உங்கள் கைவினைக் கதையைப் பகிர்ந்து கொள்ளப் பேசி பதிவு செய்யுங்கள்.",
   };
 
   const selectLanguage = (event) => {
@@ -27,7 +26,7 @@ function ArtisanInfo() {
     const speech = new SpeechSynthesisUtterance(
       guidance[language] || guidance.en
     );
-    speech.lang = { te: "te-IN", hi: "hi-IN", ta: "ta-IN", en: "en-IN" }[language] || "en-IN";
+    speech.lang = { te: "te-IN", hi: "hi-IN", en: "en-IN" }[language] || "en-IN";
     speech.onend = () => setIsSpeaking(false);
     speech.onerror = () => setIsSpeaking(false);
     window.speechSynthesis.speak(speech);
@@ -46,7 +45,6 @@ function ArtisanInfo() {
           <option value="en" style={{ backgroundColor: "#fcf8f2", color: "#3d2314" }}>English</option>
           <option value="te" style={{ backgroundColor: "#fcf8f2", color: "#3d2314" }}>తెలుగు (Telugu)</option>
           <option value="hi" style={{ backgroundColor: "#fcf8f2", color: "#3d2314" }}>हिंदी (Hindi)</option>
-          <option value="ta" style={{ backgroundColor: "#fcf8f2", color: "#3d2314" }}>தமிழ் (Tamil)</option>
         </select>
         <button onClick={togglePageSpeech} aria-pressed={isSpeaking} style={{ backgroundColor: "#b85334", color: "#fff", border: "none", padding: "6px 14px", borderRadius: "20px", cursor: "pointer", fontSize: "13px", display: "flex", alignItems: "center", gap: "6px" }}>
           {isSpeaking ? "🔇 Stop Voice Guidance" : "🔊 Listen Page (Voice Guidance)"}

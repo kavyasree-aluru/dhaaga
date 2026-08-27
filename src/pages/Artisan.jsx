@@ -11,13 +11,13 @@ const formCopy = {
   hi: {
     join: "हमारे समुदाय से जुड़ें", heading: "अपनी कला को सुरक्षित रखें", intro: "क्या आप शिल्पकार, बुनकर या पारंपरिक कलाकार हैं? अपनी कहानी दर्ज करने के लिए DHAAGA से जुड़ें।", speak: "फॉर्म भरने के लिए बोलें", listening: "सुन रहे हैं...", listenPrompt: "अपना नाम, कला, स्थान, फोन नंबर, कहानी और अनुभव के वर्ष बोलें।", captured: "दर्ज किया गया", unsupported: "इस ब्राउज़र में वॉइस इनपुट उपलब्ध नहीं है। कृपया फॉर्म टाइप करें।", failed: "वॉइस रिकॉर्ड नहीं हो सकी। कृपया विवरण टाइप करें।", submitted: "संपर्क करने के लिए धन्यवाद!", submittedDetail: "आपके जुड़ने में सहायता के लिए हमारी टीम जल्द आपसे संपर्क करेगी।", submit: "शिल्पकार आवेदन भेजें", submitting: "भेज रहे हैं...", name: "आपका नाम", craft: "शिल्प प्रकार / कला रूप", location: "स्थान (गाँव / शहर, राज्य)", phone: "फोन नंबर", story: "आपकी शिल्प कहानी", years: "अनुभव के वर्ष", namePlaceholder: "जैसे लक्ष्मी देवी", craftPlaceholder: "जैसे कलमकारी", locationPlaceholder: "जैसे निर्मल, तेलंगाना", phonePlaceholder: "+91 98765 43210", storyPlaceholder: "अपनी कला, इतिहास और विशेषता के बारे में बताएं", yearsPlaceholder: "जैसे 20",
   },
-  ta: {
-    join: "எங்கள் சமூகத்தில் இணையுங்கள்", heading: "உங்கள் கைவினையை பாதுகாக்குங்கள்", intro: "நீங்கள் ஒரு கைவினைஞரா, நெசவாளரா அல்லது பாரம்பரிய படைப்பாளரா? உங்கள் கதையை பதிவு செய்ய DHAAGA-வில் இணையுங்கள்.", speak: "படிவத்தை நிரப்ப பேசுங்கள்", listening: "கேட்கிறோம்...", listenPrompt: "உங்கள் பெயர், கைவினை, இடம், தொலைபேசி எண், கதை மற்றும் அனுபவ ஆண்டுகளைப் பேசுங்கள்.", captured: "பதிவு செய்யப்பட்டது", unsupported: "இந்த உலாவியில் குரல் உள்ளீடு ஆதரிக்கப்படவில்லை. படிவத்தை கைமுறையாக நிரப்புங்கள்.", failed: "குரல் பதிவு தோல்வியடைந்தது. விவரங்களை தட்டச்சு செய்யுங்கள்.", submitted: "தொடர்புக்கு நன்றி!", submittedDetail: "உங்கள் சேர்க்கைக்கு உதவ எங்கள் குழு விரைவில் தொடர்பு கொள்ளும்.", submit: "கைவினைஞர் விண்ணப்பத்தை அனுப்புங்கள்", submitting: "அனுப்பப்படுகிறது...", name: "உங்கள் பெயர்", craft: "கைவினை வகை / கலை வடிவம்", location: "இடம் (கிராமம் / நகரம், மாநிலம்)", phone: "தொடர்பு எண்", story: "உங்கள் கைவினைக் கதை", years: "அனுபவ ஆண்டுகள்", namePlaceholder: "எ.கா. லக்ஷ்மி தேவி", craftPlaceholder: "எ.கா. கலம்காரி", locationPlaceholder: "எ.கா. மங்களகிரி, ஆந்திரப் பிரதேசம்", phonePlaceholder: "+91 98765 43210", storyPlaceholder: "உங்கள் கைவினை, அதன் வரலாறு மற்றும் சிறப்பைச் சொல்லுங்கள்", yearsPlaceholder: "எ.கா. 20",
-  },
 };
 
 function Artisan() {
-  const [language] = useState(() => new URLSearchParams(window.location.search).get("lang") || localStorage.getItem("dhaaga-language") || "en");
+  const [language] = useState(() => {
+    const requestedLanguage = new URLSearchParams(window.location.search).get("lang") || localStorage.getItem("dhaaga-language");
+    return ["en", "te", "hi"].includes(requestedLanguage) ? requestedLanguage : "en";
+  });
   const copy = formCopy[language] || formCopy.en;
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -33,15 +33,15 @@ function Artisan() {
     const cleaned = text.trim().replace(/\s+/g, " ");
     if (!cleaned) return;
 
-    const fieldLabels = "(?:name|craft(?: type)?|art form|location|village|city|state|phone(?: number)?|mobile(?: number)?|contact(?: number)?|story|bio|about my craft|years?(?: of experience)?|experience|పేరు|కళ|స్థలం|ప్రాంతం|ఫోన్|కథ|అనుభవం|नाम|शिल्प|कला|स्थान|फोन|कहानी|अनुभव|பெயர்|கலை|இடம்|கிராமம்|நகரம்|மாநிலம்|தொலைபேசி|கதை|அனுபவம்)";
+    const fieldLabels = "(?:name|craft(?: type)?|art form|location|village|city|state|phone(?: number)?|mobile(?: number)?|contact(?: number)?|story|bio|about my craft|years?(?: of experience)?|experience|పేరు|కళ|స్థలం|ప్రాంతం|ఫోన్|కథ|అనుభవం|नाम|शिल्प|कला|स्थान|फोन|कहानी|अनुभव)";
     const valueAfter = (labels) => cleaned.match(new RegExp(`(?:${labels})\\s*(?:is|:)?\\s*(.*?)(?=\\s+(?:${fieldLabels})\\s*(?:is|:)?|$)`, "i"))?.[1]?.trim().replace(/[,.]$/, "");
     const updates = {};
-    const name = valueAfter("my name|name|i am|call me|this is|పేరు|नाम|பெயர்");
-    const craftType = valueAfter("craft(?: type)?|i make|i weave|i create|art form|my craft|కళ|शिल్ప|कला|கலை");
-    const location = valueAfter("location|from|live in|located in|village|city|state|స్థలం|ప్రాంతం|स्थान|இடம்|கிராமம்|நகரம்|மாநிலம்");
-    const phone = valueAfter("phone(?: number)?|call me on|contact(?: number)?|mobile(?: number)?|ఫోన్|फोन|தொலைபேசி");
-    const story = valueAfter("(?:my )?story|bio|about my craft|tell me about my craft|కథ|कहानी|கதை");
-    const years = valueAfter("years?(?: of experience)?|experience|(?:i have|with)\\s+\\d+\\s+years?|అనుభవం|अनुभव|அனுபவம்");
+    const name = valueAfter("my name|name|i am|call me|this is|పేరు|नाम");
+    const craftType = valueAfter("craft(?: type)?|i make|i weave|i create|art form|my craft|కళ|శిల్ప|कला");
+    const location = valueAfter("location|from|live in|located in|village|city|state|స్థలం|ప్రాంతం|स्थान");
+    const phone = valueAfter("phone(?: number)?|call me on|contact(?: number)?|mobile(?: number)?|ఫోన్|फोन");
+    const story = valueAfter("(?:my )?story|bio|about my craft|tell me about my craft|కథ|कहानी");
+    const years = valueAfter("years?(?: of experience)?|experience|(?:i have|with)\\s+\\d+\\s+years?|అనుభవం|अनुभव");
     const phoneDigits = cleaned.match(/(?:\+?\d[\d\s-]{5,}\d)/)?.[0];
 
     if (name && name.length <= 60) updates.name = name;
@@ -82,7 +82,7 @@ function Artisan() {
     }
 
     const recognition = new SpeechRecognition();
-    recognition.lang = { te: "te-IN", hi: "hi-IN", ta: "ta-IN", en: "en-IN" }[language] || "en-IN";
+    recognition.lang = { te: "te-IN", hi: "hi-IN", en: "en-IN" }[language] || "en-IN";
     recognition.interimResults = false;
     recognition.continuous = false;
     recognition.onstart = () => { setIsListening(true); setVoiceMessage(copy.listenPrompt); };

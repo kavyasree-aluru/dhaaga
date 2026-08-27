@@ -4,7 +4,7 @@ import FormData from "form-data";
 
 const ANTHROPIC_URL = "https://api.anthropic.com/v1/messages";
 const OPENAI_TRANSCRIBE_URL = "https://api.openai.com/v1/audio/transcriptions";
-export const SUPPORTED_LANGUAGES = ["en", "te", "hi", "ta"];
+export const SUPPORTED_LANGUAGES = ["en", "te", "hi"];
 
 const requireApiKey = (name) => {
   if (!process.env[name]) throw new Error(`${name} is not configured`);
@@ -39,16 +39,16 @@ export const transcribeAudio = async (filePath, language) => {
 
 /**
  * Item 7 + 8: Takes a raw transcript (any regional language) and asks Claude to
- * (a) translate it into en/te/hi/ta and (b) extract a structured artisan
+ * (a) translate it into en/te/hi and (b) extract a structured artisan
  * profile (craft type, years of experience, techniques, materials, bio).
  */
 export const structureArtisanProfile = async (rawTranscript) => {
   requireApiKey("ANTHROPIC_API_KEY");
   const system = `You are helping digitize spoken interviews of Indian handicraft artisans for the DHAAGA
-platform. Given a raw transcript (which may be in Telugu, Hindi, Tamil, or English, and may
+  platform. Given a raw transcript (which may be in Telugu, Hindi, or English, and may
 be informal/colloquial), respond with ONLY a JSON object, no preamble, no markdown fences:
 {
-  "translations": { "en": "...", "te": "...", "hi": "...", "ta": "..." },
+  "translations": { "en": "...", "te": "...", "hi": "..." },
   "structuredProfile": {
     "craftType": "...",
     "yearsOfExperience": <number or null>,
@@ -57,8 +57,8 @@ be informal/colloquial), respond with ONLY a JSON object, no preamble, no markdo
     "summaryBio": "a clean 2-3 sentence bio in English"
   }
 }
-Translate faithfully; if the source language is one of the four, keep it as-is in that slot and
-translate into the other three. If information for a field isn't present, use null or [].`;
+Translate faithfully; if the source language is English, Telugu, or Hindi, keep it as-is in that slot
+and translate into the other two. If information for a field isn't present, use null or [].`;
 
   const { data } = await axios.post(
     ANTHROPIC_URL,
@@ -125,7 +125,7 @@ Cheriyal painting, Kondapalli toys, Nirmal art/toys, and similar). Respond with 
  */
 export const translateText = async (text, targetLang) => {
   requireApiKey("ANTHROPIC_API_KEY");
-  const langNames = { en: "English", te: "Telugu", hi: "Hindi", ta: "Tamil" };
+  const langNames = { en: "English", te: "Telugu", hi: "Hindi" };
   const { data } = await axios.post(
     ANTHROPIC_URL,
     {

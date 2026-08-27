@@ -31,7 +31,7 @@ Required env vars (see `.env.example`):
 | 5 | Authentication | JWT-based, `controllers/authController.js` + `middleware/auth.js` (`protect`, `authorize`) |
 | 6 | Image/file storage | `multer` disk storage in `middleware/upload.js`, served from `/uploads` — swap for S3 later |
 | 7 | AI service (voice → text) | `POST /api/ai/artisans/:id/interview` — Whisper transcribes, Claude structures (`utils/ai.js`) |
-| 8 | Multilingual processing | Same AI service outputs en/te/hi/ta; standalone `POST /api/ai/translate` too |
+| 8 | Multilingual processing | Same AI service outputs en/te/hi; standalone `POST /api/ai/translate` too |
 | 9 | Computer Vision | `POST /api/ai/crafts/:id/classify` — Claude vision tags/verifies craft photos |
 | 10 | Geo-location | GeoJSON `Point` on Artisan model + `GET /api/artisans/near?lng=&lat=` (2dsphere index) for the Cultural Map |
 | 11 | Provenance system | `models/Provenance.js` — hash-chained event ledger, `controllers/provenanceController.js` |

@@ -7,7 +7,7 @@ import { transcribeAudio, structureArtisanProfile, classifyCraftImage, translate
 
 // @route POST /api/ai/artisans/:id/interview
 // Item 7 + 8: upload a voice interview, transcribe it, translate it into
-// en/te/hi/ta, and extract a structured artisan profile.
+// en/te/hi, and extract a structured artisan profile.
 export const processVoiceInterview = asyncHandler(async (req, res) => {
   if (!req.file) {
     res.status(400);
