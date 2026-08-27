@@ -82,13 +82,30 @@ export const updateArtisan = asyncHandler(async (req, res) => {
     if (req.body[field] !== undefined) artisan[field] = req.body[field];
   });
 
-  if (req.body.longitude && req.body.latitude) {
+  if (req.body.longitude !== undefined && req.body.latitude !== undefined) {
     artisan.location.coordinates = [Number(req.body.longitude), Number(req.body.latitude)];
   }
   if (req.file) artisan.profilePhoto = `/${req.file.path}`;
 
   await artisan.save();
   res.json({ success: true, artisan });
+});
+
+// @route DELETE /api/artisans/:id
+export const deleteArtisan = asyncHandler(async (req, res) => {
+  const artisan = await Artisan.findById(req.params.id);
+  if (!artisan) {
+    res.status(404);
+    throw new Error("Artisan not found");
+  }
+  if (String(artisan.user) !== String(req.user._id) && req.user.role !== "admin") {
+    res.status(403);
+    throw new Error("Not authorized to delete this artisan");
+  }
+
+  await artisan.deleteOne();
+  if (artisan.user) await User.findByIdAndUpdate(artisan.user, { $unset: { artisanProfile: 1 }, role: "customer" });
+  res.json({ success: true, message: "Artisan deleted" });
 });
 
 // @route GET /api/artisans/near?lng=..&lat=..&maxKm=25   (item 10: Cultural Map)

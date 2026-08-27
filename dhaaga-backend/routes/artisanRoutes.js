@@ -4,6 +4,7 @@ import {
   getArtisans,
   getArtisanById,
   updateArtisan,
+  deleteArtisan,
   getArtisansNear,
   verifyArtisan,
 } from "../controllers/artisanController.js";
@@ -18,6 +19,7 @@ router.get("/:id", getArtisanById);
 
 router.post("/", upload.single("profilePhoto"), registerArtisan);
 router.put("/:id", protect, upload.single("profilePhoto"), updateArtisan);
+router.delete("/:id", protect, authorize("artisan", "admin"), deleteArtisan);
 router.patch("/:id/verify", protect, authorize("admin"), verifyArtisan);
 
 export default router;

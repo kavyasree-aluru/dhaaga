@@ -37,3 +37,38 @@ export const getStoryById = asyncHandler(async (req, res) => {
   }
   res.json({ success: true, story });
 });
+
+export const updateStory = asyncHandler(async (req, res) => {
+  const story = await Story.findById(req.params.id).populate("artisan");
+  if (!story) {
+    res.status(404);
+    throw new Error("Story not found");
+  }
+  if (String(story.artisan.user) !== String(req.user._id) && req.user.role !== "admin") {
+    res.status(403);
+    throw new Error("Not authorized to edit this story");
+  }
+
+  ["title", "sourceAudio"].forEach((field) => {
+    if (req.body[field] !== undefined) story[field] = req.body[field];
+  });
+  if (req.body.body !== undefined) story.body = typeof req.body.body === "string" ? { en: req.body.body } : req.body.body;
+  if (req.file) story.coverImage = `/${req.file.path}`;
+  await story.save();
+  res.json({ success: true, story });
+});
+
+export const deleteStory = asyncHandler(async (req, res) => {
+  const story = await Story.findById(req.params.id).populate("artisan");
+  if (!story) {
+    res.status(404);
+    throw new Error("Story not found");
+  }
+  if (String(story.artisan.user) !== String(req.user._id) && req.user.role !== "admin") {
+    res.status(403);
+    throw new Error("Not authorized to delete this story");
+  }
+
+  await story.deleteOne();
+  res.json({ success: true, message: "Story deleted" });
+});
