@@ -1,74 +1,157 @@
 # DHAAGA
 
-### Discover. Preserve. Support India's Living Heritage.
+## Discover. Preserve. Support India's Living Heritage.
 
-DHAAGA is a digital cultural heritage platform built to bring India's traditional crafts, regional stories, and artisan communities closer to the world. The website helps visitors discover the people and places behind handmade work while giving artisans a space to share their identity, experience, and craft.
+> A digital bridge between India's traditional artisans, living craft traditions, and the people who want to discover and sustain them.
 
-## About The Website
+DHAAGA is a cultural heritage discovery platform created for the **Smart India Hackathon**. It combines regional storytelling, interactive maps, artisan onboarding, voice assistance, and provenance-oriented technology to make India's craft communities more visible, accessible, and connected.
 
-DHAAGA turns craft discovery into a visual and human experience. Visitors can explore traditional art forms, learn how each craft is connected to a region, read the stories behind the work, and find the artisans preserving these practices across generations.
+## The Problem
 
-The experience is designed around three simple ideas:
+Traditional crafts carry generations of knowledge, but many artisan communities remain difficult to discover online. Their work is often separated from its cultural context, regional identity, and the story of the person who made it. Language, literacy, limited digital access, and unreliable connectivity can make existing digital platforms difficult to use.
 
-- **Discover:** Find crafts, regions, and the people behind them.
-- **Preserve:** Document stories, skills, and cultural knowledge.
-- **Support:** Connect directly with artisans and help living traditions continue.
+DHAAGA addresses this gap by presenting craft as a living story rather than only as a product.
+
+## Our Solution
+
+DHAAGA creates one accessible digital space where people can:
+
+- Discover regional crafts and the artisans behind them
+- Understand the cultural story, place, and practice connected to each craft
+- Explore craft origins through an interactive Cultural Map
+- Register artisan profiles with voice-assisted form filling
+- Share images, stories, experience, and craft identity
+- Support direct connections between communities and visitors
+- Build a foundation for provenance, verification, and responsible craft discovery
 
 ## Website Experience
 
 ### Home
 
-The home page introduces DHAAGA through a focused craft spotlight and a clear path into India's living heritage. It highlights the purpose of the platform and guides visitors toward exploring crafts or joining as an artisan.
+The Home page introduces the purpose of DHAAGA through a featured Nirmal wooden toy craft, a clear discovery path, and an invitation for artisans to join the platform.
 
 ### Explore Crafts
 
-The Explore page presents a visual collection of regional crafts, including:
-
-- Nirmal wooden toys from Telangana
-- Kondapalli toys from Andhra Pradesh
-- Cheriyal narrative paintings from Telangana
-- Kalamkari textiles from Andhra Pradesh
-- Mangalagiri handloom weaving
-
-Visitors can filter crafts by category and open the individual story connected to each craft. Artisan profiles registered through the platform can also appear with their location, experience, contact details, and profile image.
+The Explore page is a visual directory of craft traditions and registered artisans. Visitors can filter by craft category and open a dedicated story for each entry. Featured traditions include Nirmal wooden toys, Kondapalli toys, Cheriyal paintings, Kalamkari textiles, and Mangalagiri handloom weaving.
 
 ### Cultural Map
 
-The Cultural Map connects each craft to its geographic origin. Visitors can select a craft card or map marker to focus on its location and view its image, region, and story link. The map currently includes Nirmal, Kondapalli, Cheriyal, Kalamkari, and Lakshmi Devi's Mangalagiri weaving tradition.
+The Cultural Map connects craft traditions to their geographic origins. Selecting a craft card or map marker focuses the map on that location and opens the relevant image and story link. The current map includes Nirmal, Kondapalli, Cheriyal, Kalamkari, and Mangalagiri.
 
 ### Craft Stories
 
-Every featured craft has a dedicated story page that introduces its region, materials, tradition, artisan community, and cultural importance. The pages are designed to show that a handmade object carries knowledge, memory, identity, and the work of skilled people.
+Each story page brings together the craft name, region, artisan identity, experience, cultural context, and the meaning behind the work. The goal is to preserve knowledge and help visitors see the human effort behind a handmade object.
 
 ### Artisan Registration
 
-The artisan journey allows traditional creators to share their name, craft type, location, contact number, story, years of experience, and profile photograph. Submitted profiles can become part of the platform's growing directory of living heritage.
+Artisans can share their name, craft type, location, phone number, story, years of experience, and profile photograph. The submitted profile becomes part of a growing digital directory of living heritage.
 
-### Voice-Friendly Access
+### Voice and Language Access
 
-DHAAGA supports voice-assisted registration for English, Telugu, and Hindi speakers. The voice form can capture spoken details such as a name, craft, location, phone number, story, and years of experience, helping reduce the need for typing.
+The registration experience supports voice-assisted form filling in English, Telugu, and Hindi. Speech can capture details such as a name, craft, location, phone number, story, and years of experience, reducing dependence on typing. Optional voice guidance is also available on the artisan information page.
 
-The artisan information page also includes optional voice guidance to make the registration journey easier to understand.
+## Current Craft Focus
 
-## Platform Capabilities
+DHAAGA currently highlights craft traditions from Telangana and Andhra Pradesh:
 
-- Regional craft discovery and visual storytelling
-- Artisan profiles and community registration
-- Interactive geographic craft exploration
-- Image and audio upload support
-- Multilingual profile and translation foundations
-- Provenance records and QR verification foundations
-- Direct artisan support and commission request foundations
-- Offline synchronization support for unreliable connectivity
+| Craft | Region | Heritage focus |
+| --- | --- | --- |
+| Nirmal Wooden Toys | Nirmal, Telangana | Painted wooden toys and family craft practice |
+| Kondapalli Toys | Kondapalli, Andhra Pradesh | Hand-carved figures and local storytelling |
+| Cheriyal Paintings | Cheriyal, Telangana | Narrative scroll painting and visual folklore |
+| Kalamkari | Machilipatnam, Andhra Pradesh | Hand-painted and block-printed textiles |
+| Mangalagiri Weaving | Mangalagiri, Andhra Pradesh | Handloom weaving and artisan identity |
 
-## Craft Heritage Featured
+## Architecture
 
-DHAAGA currently represents craft traditions from Telangana and Andhra Pradesh, with a focus on the cultural knowledge carried by artisans and their families. The platform can grow to include more regions, languages, art forms, and artisan communities.
+DHAAGA follows a modular client-server architecture. The frontend provides the public discovery experience, while the backend exposes APIs for artisan profiles, crafts, stories, authentication, uploads, support, provenance, QR generation, and synchronization.
 
-## Technology
+```mermaid
+flowchart LR
+    Visitor[Visitor or Artisan] --> Web[React + Vite Web App]
+    Web --> Map[React Leaflet Cultural Map]
+    Web --> Voice[Browser Voice Interfaces]
+    Web --> API[Express REST API]
+    API --> Auth[JWT Authentication]
+    API --> DB[(MongoDB via Mongoose)]
+    API --> Files[Local Upload Storage]
+    API --> AI[AI Services]
+    API --> Ledger[Provenance and QR Modules]
+    API --> Sync[Offline Sync Endpoint]
+```
 
-DHAAGA combines a React and Vite web experience with a Node.js and Express backend. MongoDB stores artisan, craft, story, provenance, and support information. The platform also uses interactive mapping, image uploads, voice recognition, multilingual processing, and AI-assisted craft documentation.
+### Frontend Layer
+
+- React for component-based user experiences
+- Vite for fast development and optimized production builds
+- React Router-style route handling for Home, Explore, Map, Stories, and Artisan flows
+- React Leaflet with OpenStreetMap tiles for geographic discovery
+- Responsive CSS layouts for desktop and mobile screens
+- Local image assets with runtime fallbacks for reliable visual presentation
+
+### Backend Layer
+
+- Node.js and Express REST API
+- Mongoose models for users, artisans, crafts, stories, support requests, and provenance records
+- JWT-based authentication and role-aware authorization
+- Multer-based image and audio upload handling
+- Helmet, CORS, request logging, JSON limits, and API rate limiting
+- Centralized error handling for consistent API responses
+
+### Data and Intelligence Layer
+
+- MongoDB for structured cultural and artisan data
+- GeoJSON points and 2dsphere indexes for location-based artisan discovery
+- Claude integration for multilingual structuring, translation, and craft image classification
+- Whisper integration for voice interview transcription
+- SHA-256 hash chaining for tamper-evident provenance records
+- QR generation for public verification links
+- Idempotent synchronization through client action identifiers
+
+## Technology Stack
+
+| Layer | Technologies |
+| --- | --- |
+| Web interface | React 18, Vite, JavaScript, CSS |
+| Navigation and mapping | Route-based views, React Leaflet, Leaflet, OpenStreetMap |
+| API server | Node.js, Express, REST APIs |
+| Database | MongoDB, Mongoose |
+| Authentication | JSON Web Tokens, bcryptjs, role authorization |
+| Media | Multer, image/audio uploads, local storage adapter |
+| AI and voice | Claude API, OpenAI Whisper, Web Speech API |
+| Trust layer | SHA-256 provenance chain, QRCode generation |
+| Reliability | Rate limiting, Helmet, CORS, offline sync foundations |
+
+## Impact
+
+DHAAGA is designed to support:
+
+- **Cultural preservation:** Stories and techniques can be documented before they disappear.
+- **Artisan visibility:** Local creators gain a digital identity connected to their craft and region.
+- **Inclusive access:** Voice-assisted, multilingual onboarding lowers barriers to participation.
+- **Informed discovery:** Visitors understand origin and cultural context instead of seeing anonymous products.
+- **Community connection:** The platform creates a path toward direct support and sustainable opportunity.
+- **Trust and transparency:** Provenance and verification modules establish a foundation for authenticity-oriented craft records.
+
+## Responsible Design
+
+DHAAGA treats AI-assisted classification and provenance records as support tools, not as legal proof of authenticity. Artisan information should be collected with consent, reviewed responsibly, and presented with respect for community ownership and cultural knowledge.
+
+## Future Scope
+
+- Cloud media storage with durable backups
+- Progressive Web App support for stronger offline access
+- More Indian languages and regional craft communities
+- Artisan dashboards for profile and story management
+- Marketplace integrations with transparent pricing
+- Community verification and curator workflows
+- Analytics for cultural institutions and local development programs
+- Accessibility improvements for low-bandwidth and assistive technology users
 
 ## Vision
 
-DHAAGA believes traditional craft should be experienced as more than a product. Each craft is a living story shaped by place, practice, family, and community. The platform exists to make those stories visible, respected, and connected to the people who keep them alive.
+DHAAGA imagines a future where every traditional craft can be discovered with context, every artisan can be represented with dignity, and every cultural story can reach the people who will help carry it forward.
+
+## License
+
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
