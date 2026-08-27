@@ -1,6 +1,5 @@
 import asyncHandler from "express-async-handler";
 import Provenance from "../models/Provenance.js";
-import Craft from "../models/Craft.js";
 
 // @route POST /api/provenance/:craftId/events   (artisan/admin adds a milestone)
 export const addProvenanceEvent = asyncHandler(async (req, res) => {
@@ -9,6 +8,10 @@ export const addProvenanceEvent = asyncHandler(async (req, res) => {
   if (!provenance) {
     res.status(404);
     throw new Error("No provenance record for this craft");
+  }
+  if (req.user.role !== "admin" && String(provenance.artisan) !== String(req.user.artisanProfile)) {
+    res.status(403);
+    throw new Error("Not authorized to update this provenance record");
   }
 
   provenance.addEvent({ type, description, actor: req.user._id });

@@ -4,10 +4,23 @@ export const notFound = (req, res, next) => {
 };
 
 export const errorHandler = (err, req, res, next) => {
-  const statusCode = res.statusCode && res.statusCode !== 200 ? res.statusCode : 500;
+  let statusCode = res.statusCode && res.statusCode !== 200 ? res.statusCode : 500;
+  let message = err.message;
+
+  if (err.name === "CastError") {
+    statusCode = 400;
+    message = `Invalid ${err.path || "resource"} identifier`;
+  } else if (err.name === "ValidationError") {
+    statusCode = 400;
+    message = Object.values(err.errors).map((error) => error.message).join(", ");
+  } else if (err.code === "LIMIT_FILE_SIZE") {
+    statusCode = 413;
+    message = "Uploaded file exceeds the 25MB limit";
+  }
+
   res.status(statusCode).json({
     success: false,
-    message: err.message,
+    message,
     stack: process.env.NODE_ENV === "production" ? undefined : err.stack,
   });
 };

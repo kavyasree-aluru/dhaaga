@@ -1,4 +1,3 @@
-
 const API_URL = import.meta.env.VITE_API_URL || "/api";
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -12,6 +11,9 @@ const formCopy = {
   hi: {
     join: "हमारे समुदाय से जुड़ें", heading: "अपनी कला को सुरक्षित रखें", intro: "क्या आप शिल्पकार, बुनकर या पारंपरिक कलाकार हैं? अपनी कहानी दर्ज करने के लिए DHAAGA से जुड़ें।", speak: "फॉर्म भरने के लिए बोलें", listening: "सुन रहे हैं...", listenPrompt: "अपना नाम, कला, स्थान, फोन नंबर, कहानी और अनुभव के वर्ष बोलें।", captured: "दर्ज किया गया", unsupported: "इस ब्राउज़र में वॉइस इनपुट उपलब्ध नहीं है। कृपया फॉर्म टाइप करें।", failed: "वॉइस रिकॉर्ड नहीं हो सकी। कृपया विवरण टाइप करें।", submitted: "संपर्क करने के लिए धन्यवाद!", submittedDetail: "आपके जुड़ने में सहायता के लिए हमारी टीम जल्द आपसे संपर्क करेगी।", submit: "शिल्पकार आवेदन भेजें", submitting: "भेज रहे हैं...", name: "आपका नाम", craft: "शिल्प प्रकार / कला रूप", location: "स्थान (गाँव / शहर, राज्य)", phone: "फोन नंबर", story: "आपकी शिल्प कहानी", years: "अनुभव के वर्ष", namePlaceholder: "जैसे लक्ष्मी देवी", craftPlaceholder: "जैसे कलमकारी", locationPlaceholder: "जैसे निर्मल, तेलंगाना", phonePlaceholder: "+91 98765 43210", storyPlaceholder: "अपनी कला, इतिहास और विशेषता के बारे में बताएं", yearsPlaceholder: "जैसे 20",
   },
+  ta: {
+    join: "எங்கள் சமூகத்தில் இணையுங்கள்", heading: "உங்கள் கைவினையை பாதுகாக்குங்கள்", intro: "நீங்கள் ஒரு கைவினைஞரா, நெசவாளரா அல்லது பாரம்பரிய படைப்பாளரா? உங்கள் கதையை பதிவு செய்ய DHAAGA-வில் இணையுங்கள்.", speak: "படிவத்தை நிரப்ப பேசுங்கள்", listening: "கேட்கிறோம்...", listenPrompt: "உங்கள் பெயர், கைவினை, இடம், தொலைபேசி எண், கதை மற்றும் அனுபவ ஆண்டுகளைப் பேசுங்கள்.", captured: "பதிவு செய்யப்பட்டது", unsupported: "இந்த உலாவியில் குரல் உள்ளீடு ஆதரிக்கப்படவில்லை. படிவத்தை கைமுறையாக நிரப்புங்கள்.", failed: "குரல் பதிவு தோல்வியடைந்தது. விவரங்களை தட்டச்சு செய்யுங்கள்.", submitted: "தொடர்புக்கு நன்றி!", submittedDetail: "உங்கள் சேர்க்கைக்கு உதவ எங்கள் குழு விரைவில் தொடர்பு கொள்ளும்.", submit: "கைவினைஞர் விண்ணப்பத்தை அனுப்புங்கள்", submitting: "அனுப்பப்படுகிறது...", name: "உங்கள் பெயர்", craft: "கைவினை வகை / கலை வடிவம்", location: "இடம் (கிராமம் / நகரம், மாநிலம்)", phone: "தொடர்பு எண்", story: "உங்கள் கைவினைக் கதை", years: "அனுபவ ஆண்டுகள்", namePlaceholder: "எ.கா. லக்ஷ்மி தேவி", craftPlaceholder: "எ.கா. கலம்காரி", locationPlaceholder: "எ.கா. மங்களகிரி, ஆந்திரப் பிரதேசம்", phonePlaceholder: "+91 98765 43210", storyPlaceholder: "உங்கள் கைவினை, அதன் வரலாறு மற்றும் சிறப்பைச் சொல்லுங்கள்", yearsPlaceholder: "எ.கா. 20",
+  },
 };
 
 function Artisan() {
@@ -22,143 +24,81 @@ function Artisan() {
   const [submitError, setSubmitError] = useState("");
   const [isListening, setIsListening] = useState(false);
   const [voiceMessage, setVoiceMessage] = useState("");
-  const [formData, setFormData] = useState({
-    name: "",
-    craftType: "",
-    location: "",
-    phone: "",
-    story: "",
-    yearsOfExperience: "",
-    profilePhoto: null,
-  });
+  const [formData, setFormData] = useState({ name: "", craftType: "", location: "", phone: "", story: "", yearsOfExperience: "", profilePhoto: null });
   const recognitionRef = useRef(null);
 
-  const updateField = (field, value) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-  };
+  const updateField = (field, value) => setFormData((prev) => ({ ...prev, [field]: value }));
 
   const applyVoiceTranscript = useCallback((text) => {
     const cleaned = text.trim().replace(/\s+/g, " ");
     if (!cleaned) return;
 
-    const fieldLabels = "(?:name|craft(?: type)?|art form|location|village|city|state|phone(?: number)?|mobile(?: number)?|contact(?: number)?|story|bio|about my craft|years?(?: of experience)?|experience|పేరు|కళ|స్థలం|ప్రాంతం|ఫోన్|కథ|అనుభవం|नाम|शिल्प|कला|स्थान|फोन|कहानी|अनुभव)";
-    const valueAfter = (labels) => {
-      const match = cleaned.match(new RegExp(`(?:${labels})\\s*(?:is|:)?\\s*(.*?)(?=\\s+(?:${fieldLabels})\\s*(?:is|:)?|$)`, "i"));
-      return match?.[1]?.trim().replace(/[,.]$/, "");
-    };
-
-    const name = valueAfter("my name|name|i am|call me|this is|పేరు|नाम");
-    const craftType = valueAfter("craft(?: type)?|i make|i weave|i create|art form|my craft|కళ|शिल्प|कला");
-    const location = valueAfter("location|from|live in|located in|village|city|state|స్థలం|ప్రాంతం|स्थान");
-    const phone = valueAfter("phone(?: number)?|call me on|contact(?: number)?|mobile(?: number)?|ఫోన్|फोन");
-    const story = valueAfter("(?:my )?story|bio|about my craft|tell me about my craft|కథ|कहानी");
-    const years = valueAfter("years?(?: of experience)?|experience|(?:i have|with)\\s+\\d+\\s+years?|అనుభవం|अनुभव");
+    const fieldLabels = "(?:name|craft(?: type)?|art form|location|village|city|state|phone(?: number)?|mobile(?: number)?|contact(?: number)?|story|bio|about my craft|years?(?: of experience)?|experience|పేరు|కళ|స్థలం|ప్రాంతం|ఫోన్|కథ|అనుభవం|नाम|शिल्प|कला|स्थान|फोन|कहानी|अनुभव|பெயர்|கலை|இடம்|கிராமம்|நகரம்|மாநிலம்|தொலைபேசி|கதை|அனுபவம்)";
+    const valueAfter = (labels) => cleaned.match(new RegExp(`(?:${labels})\\s*(?:is|:)?\\s*(.*?)(?=\\s+(?:${fieldLabels})\\s*(?:is|:)?|$)`, "i"))?.[1]?.trim().replace(/[,.]$/, "");
     const updates = {};
+    const name = valueAfter("my name|name|i am|call me|this is|పేరు|नाम|பெயர்");
+    const craftType = valueAfter("craft(?: type)?|i make|i weave|i create|art form|my craft|కళ|शिल్ప|कला|கலை");
+    const location = valueAfter("location|from|live in|located in|village|city|state|స్థలం|ప్రాంతం|स्थान|இடம்|கிராமம்|நகரம்|மாநிலம்");
+    const phone = valueAfter("phone(?: number)?|call me on|contact(?: number)?|mobile(?: number)?|ఫోన్|फोन|தொலைபேசி");
+    const story = valueAfter("(?:my )?story|bio|about my craft|tell me about my craft|కథ|कहानी|கதை");
+    const years = valueAfter("years?(?: of experience)?|experience|(?:i have|with)\\s+\\d+\\s+years?|అనుభవం|अनुभव|அனுபவம்");
     const phoneDigits = cleaned.match(/(?:\+?\d[\d\s-]{5,}\d)/)?.[0];
 
     if (name && name.length <= 60) updates.name = name;
     if (craftType) updates.craftType = craftType;
     if (location) updates.location = location;
     if (phone) {
-      const spokenDigits = phone.toLowerCase()
-        .replace(/zero/g, "0").replace(/one/g, "1").replace(/two/g, "2")
-        .replace(/three/g, "3").replace(/four/g, "4").replace(/five/g, "5")
-        .replace(/six/g, "6").replace(/seven/g, "7").replace(/eight/g, "8")
-        .replace(/nine/g, "9");
-      const normalizedPhone = spokenDigits.replace(/[^0-9+]/g, "");
+      const normalizedPhone = phone.toLowerCase().replace(/zero/g, "0").replace(/one/g, "1").replace(/two/g, "2").replace(/three/g, "3").replace(/four/g, "4").replace(/five/g, "5").replace(/six/g, "6").replace(/seven/g, "7").replace(/eight/g, "8").replace(/nine/g, "9").replace(/[^0-9+]/g, "");
       if (normalizedPhone.length >= 7) updates.phone = normalizedPhone;
     }
     if (story) updates.story = story;
-    if (years) {
-      const yearsNumber = years.match(/\d+/)?.[0];
-      if (yearsNumber) updates.yearsOfExperience = yearsNumber;
-    }
+    if (years) updates.yearsOfExperience = years.match(/\d+/)?.[0] || "";
 
-    // Also accept a compact sequence such as "Kavya Kalamkari Hyderabad 987...".
     if (phoneDigits) {
-      const textBeforePhone = cleaned.slice(0, cleaned.indexOf(phoneDigits)).trim();
-      const textAfterPhone = cleaned.slice(cleaned.indexOf(phoneDigits) + phoneDigits.length).trim();
-      const words = textBeforePhone.split(/\s+/).filter(Boolean);
+      const words = cleaned.slice(0, cleaned.indexOf(phoneDigits)).trim().split(/\s+/).filter(Boolean);
       if (words.length >= 3) {
         if (!updates.name) updates.name = words[0];
         if (!updates.craftType) updates.craftType = words[1];
         if (!updates.location) updates.location = words.slice(2).join(" ");
         if (!updates.phone) updates.phone = phoneDigits.replace(/[^0-9+]/g, "");
       }
-      if (!updates.story && textAfterPhone) {
-        const storyAfterPhone = textAfterPhone.match(/(?:my )?story(?: is|:)?\s+(.+?)(?=\s+(?:i have|with)\s+\d+\s+years?|$)/i);
-        if (storyAfterPhone) updates.story = storyAfterPhone[1].trim().replace(/[,.]$/, "");
-      }
-      if (!updates.years) {
-        const yearsAfterPhone = textAfterPhone.match(/(?:i have|with)?\s*(\d+)\s+years?(?: of experience)?/i);
-        if (yearsAfterPhone) updates.yearsOfExperience = yearsAfterPhone[1];
-      }
     }
 
-    setFormData((prev) => {
-      // A single short utterance such as "Kavya" is most likely the name.
-      if (!Object.keys(updates).length && !prev.name && /^[A-Za-z][A-Za-z '\u2019-]{1,40}$/.test(cleaned)) {
-        return { ...prev, name: cleaned };
-      }
-      return Object.keys(updates).length ? { ...prev, ...updates } : prev;
-    });
-
+    setFormData((prev) => Object.keys(updates).length ? { ...prev, ...updates } : (!prev.name && /^[A-Za-z][A-Za-z '\u2019-]{1,40}$/.test(cleaned) ? { ...prev, name: cleaned } : prev));
     setVoiceMessage(`${copy.captured}: ${cleaned}`);
   }, [copy.captured]);
 
   const startVoiceInput = useCallback(() => {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (isListening) {
+      recognitionRef.current?.stop();
+      setIsListening(false);
+      return;
+    }
 
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRecognition) {
       setVoiceMessage(copy.unsupported);
       return;
     }
 
     const recognition = new SpeechRecognition();
-    recognition.lang = { te: "te-IN", hi: "hi-IN", en: "en-IN" }[language] || "en-IN";
+    recognition.lang = { te: "te-IN", hi: "hi-IN", ta: "ta-IN", en: "en-IN" }[language] || "en-IN";
     recognition.interimResults = false;
     recognition.continuous = false;
-
-    recognition.onstart = () => {
-      setIsListening(true);
-      setVoiceMessage(copy.listenPrompt);
-    };
-
-    recognition.onresult = (event) => {
-      let transcript = "";
-      for (let i = 0; i < event.results.length; i += 1) {
-        transcript += event.results[i][0].transcript;
-      }
-
-      applyVoiceTranscript(transcript.trim());
-    };
-
-    recognition.onerror = () => {
-      setIsListening(false);
-      setVoiceMessage(copy.failed);
-    };
-
-    recognition.onend = () => {
-      setIsListening(false);
-    };
-
+    recognition.onstart = () => { setIsListening(true); setVoiceMessage(copy.listenPrompt); };
+    recognition.onresult = (event) => applyVoiceTranscript(Array.from(event.results).map((result) => result[0].transcript).join(" ").trim());
+    recognition.onerror = () => { setIsListening(false); setVoiceMessage(copy.failed); };
+    recognition.onend = () => setIsListening(false);
     recognitionRef.current = recognition;
     recognition.start();
-  }, [applyVoiceTranscript, copy.failed, copy.listenPrompt, copy.unsupported, language]);
+  }, [applyVoiceTranscript, copy.failed, copy.listenPrompt, copy.unsupported, isListening, language]);
 
-  useEffect(() => {
-    return () => {
-      if (recognitionRef.current) {
-        recognitionRef.current.stop();
-      }
-    };
-  }, []);
+  useEffect(() => () => recognitionRef.current?.stop(), []);
 
   const submitApplication = async (event) => {
     event.preventDefault();
     setIsSubmitting(true);
     setSubmitError("");
-
     try {
       const application = new FormData();
       application.append("name", formData.name);
@@ -168,12 +108,7 @@ function Artisan() {
       application.append("bio", formData.story);
       application.append("yearsOfExperience", formData.yearsOfExperience);
       if (formData.profilePhoto) application.append("profilePhoto", formData.profilePhoto);
-
-      const response = await fetch(`${API_URL}/artisans`, {
-        method: "POST",
-        body: application,
-      });
-
+      const response = await fetch(`${API_URL}/artisans`, { method: "POST", body: application });
       const result = await response.json();
       if (!response.ok) throw new Error(result.message || "Unable to submit application");
       setSubmitted(true);
@@ -186,132 +121,24 @@ function Artisan() {
 
   return (
     <div style={{ padding: "40px 20px", maxWidth: "800px", margin: "0 auto", color: "#3d2314", textAlign: "center" }}>
-      <p style={{ letterSpacing: "1.5px", fontSize: "12px", fontWeight: "bold", opacity: 0.8, color: "#3d2314" }}>
-        {copy.join}
-      </p>
-
-      <h1 style={{ fontSize: "36px", margin: "10px 0 20px", color: "#3d2314" }}>
-        {copy.heading} <em>DHAAGA</em>
-      </h1>
-
-      <p style={{ fontSize: "16px", lineHeight: "1.6", marginBottom: "30px", color: "#3d2314" }}>
-        {copy.intro}
-      </p>
-
+      <p style={{ letterSpacing: "1.5px", fontSize: "12px", fontWeight: "bold", opacity: 0.8, color: "#3d2314" }}>{copy.join}</p>
+      <h1 style={{ fontSize: "36px", margin: "10px 0 20px", color: "#3d2314" }}>{copy.heading} <em>DHAAGA</em></h1>
+      <p style={{ fontSize: "16px", lineHeight: "1.6", marginBottom: "30px", color: "#3d2314" }}>{copy.intro}</p>
       <div style={{ display: "flex", justifyContent: "center", marginBottom: "20px" }}>
-        <button
-          type="button"
-          onClick={startVoiceInput}
-          style={{
-            padding: "10px 18px",
-            borderRadius: "999px",
-            border: "none",
-            background: isListening ? "#5e2f25" : "#b85334",
-            color: "#fff",
-            cursor: "pointer",
-            fontWeight: "bold",
-          }}
-        >
-          {isListening ? `🎙️ ${copy.listening}` : `🎙️ ${copy.speak}`}
-        </button>
+        <button type="button" onClick={startVoiceInput} style={{ padding: "10px 18px", borderRadius: "999px", border: "none", background: isListening ? "#5e2f25" : "#b85334", color: "#fff", cursor: "pointer", fontWeight: "bold" }}>{isListening ? `🎙️ ${copy.listening}` : `🎙️ ${copy.speak}`}</button>
       </div>
-
-      {voiceMessage && (
-        <div style={{ marginBottom: "18px", padding: "10px 12px", background: "#f5efe6", border: "1px solid #d4c3b3", borderRadius: "8px", color: "#3d2314", textAlign: "left" }}>
-          {voiceMessage}
-        </div>
-      )}
-
-      {submitted ? (
-        <div style={{ padding: "20px", border: "1px solid #3d2314", backgroundColor: "#fff", color: "#3d2314" }}>
-          <h3 style={{ color: "#3d2314" }}>{copy.submitted}</h3>
-          <p>{copy.submittedDetail}</p>
-        </div>
-      ) : (
-        <form
-          onSubmit={submitApplication}
-          style={{ display: "flex", flexDirection: "column", gap: "15px", textAlign: "left" }}
-        >
-          <div>
-            <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold", color: "#3d2314" }}>{copy.name}</label>
-            <input
-              required
-              type="text"
-              value={formData.name}
-              onChange={(e) => updateField("name", e.target.value)}
-              placeholder={copy.namePlaceholder}
-              style={{ width: "100%", padding: "10px", border: "1px solid #ccc" }}
-            />
-          </div>
-          <div>
-            <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold", color: "#3d2314" }}>{copy.craft}</label>
-            <input
-              required
-              type="text"
-              value={formData.craftType}
-              onChange={(e) => updateField("craftType", e.target.value)}
-              placeholder={copy.craftPlaceholder}
-              style={{ width: "100%", padding: "10px", border: "1px solid #ccc" }}
-            />
-          </div>
-          <div>
-            <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold", color: "#3d2314" }}>{copy.location}</label>
-            <input
-              required
-              type="text"
-              value={formData.location}
-              onChange={(e) => updateField("location", e.target.value)}
-              placeholder={copy.locationPlaceholder}
-              style={{ width: "100%", padding: "10px", border: "1px solid #ccc" }}
-            />
-          </div>
-          <div>
-            <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold", color: "#3d2314" }}>{copy.phone}</label>
-            <input
-              required
-              type="tel"
-              value={formData.phone}
-              onChange={(e) => updateField("phone", e.target.value)}
-              placeholder={copy.phonePlaceholder}
-              style={{ width: "100%", padding: "10px", border: "1px solid #ccc" }}
-            />
-          </div>
-          <div>
-            <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold", color: "#3d2314" }}>{copy.story}</label>
-            <textarea
-              required
-              value={formData.story}
-              onChange={(e) => updateField("story", e.target.value)}
-              placeholder={copy.storyPlaceholder}
-              rows="5"
-              style={{ width: "100%", padding: "10px", border: "1px solid #ccc", resize: "vertical" }}
-            />
-          </div>
-          <div>
-            <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold", color: "#3d2314" }}>{copy.years}</label>
-            <input
-              required
-              min="0"
-              type="number"
-              value={formData.yearsOfExperience}
-              onChange={(e) => updateField("yearsOfExperience", e.target.value)}
-              placeholder={copy.yearsPlaceholder}
-              style={{ width: "100%", padding: "10px", border: "1px solid #ccc" }}
-            />
-          </div>
-          <div>
-            <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold", color: "#3d2314" }}>Profile Photo</label>
-            <input
-              accept="image/*"
-              type="file"
-              onChange={(e) => updateField("profilePhoto", e.target.files?.[0] || null)}
-              style={{ width: "100%", padding: "10px", border: "1px solid #ccc" }}
-            />
-          </div>
+      {voiceMessage && <div style={{ marginBottom: "18px", padding: "10px 12px", background: "#f5efe6", border: "1px solid #d4c3b3", borderRadius: "8px", color: "#3d2314", textAlign: "left" }}>{voiceMessage}</div>}
+      {submitted ? <div style={{ padding: "20px", border: "1px solid #3d2314", backgroundColor: "#fff", color: "#3d2314" }}><h3 style={{ color: "#3d2314" }}>{copy.submitted}</h3><p>{copy.submittedDetail}</p></div> : (
+        <form onSubmit={submitApplication} style={{ display: "flex", flexDirection: "column", gap: "15px", textAlign: "left" }}>
+          <label>{copy.name}<input required type="text" value={formData.name} onChange={(event) => updateField("name", event.target.value)} placeholder={copy.namePlaceholder} /></label>
+          <label>{copy.craft}<input required type="text" value={formData.craftType} onChange={(event) => updateField("craftType", event.target.value)} placeholder={copy.craftPlaceholder} /></label>
+          <label>{copy.location}<input required type="text" value={formData.location} onChange={(event) => updateField("location", event.target.value)} placeholder={copy.locationPlaceholder} /></label>
+          <label>{copy.phone}<input required type="tel" value={formData.phone} onChange={(event) => updateField("phone", event.target.value)} placeholder={copy.phonePlaceholder} /></label>
+          <label>{copy.story}<textarea required value={formData.story} onChange={(event) => updateField("story", event.target.value)} placeholder={copy.storyPlaceholder} rows="5" /></label>
+          <label>{copy.years}<input required min="0" type="number" value={formData.yearsOfExperience} onChange={(event) => updateField("yearsOfExperience", event.target.value)} placeholder={copy.yearsPlaceholder} /></label>
+          <label>Profile Photo<input accept="image/*" type="file" onChange={(event) => updateField("profilePhoto", event.target.files?.[0] || null)} /></label>
           {submitError && <p style={{ color: "#a12622", margin: 0 }}>{submitError}</p>}
-          <button disabled={isSubmitting} type="submit" className="primary-button" style={{ marginTop: "10px", padding: "12px", cursor: isSubmitting ? "wait" : "pointer" }}>
-            {isSubmitting ? copy.submitting : `${copy.submit} →`}
-          </button>
+          <button disabled={isSubmitting} type="submit" className="primary-button" style={{ marginTop: "10px", padding: "12px", cursor: isSubmitting ? "wait" : "pointer" }}>{isSubmitting ? copy.submitting : `${copy.submit} →`}</button>
         </form>
       )}
     </div>

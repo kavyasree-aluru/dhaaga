@@ -4,6 +4,11 @@ import FormData from "form-data";
 
 const ANTHROPIC_URL = "https://api.anthropic.com/v1/messages";
 const OPENAI_TRANSCRIBE_URL = "https://api.openai.com/v1/audio/transcriptions";
+export const SUPPORTED_LANGUAGES = ["en", "te", "hi", "ta"];
+
+const requireApiKey = (name) => {
+  if (!process.env[name]) throw new Error(`${name} is not configured`);
+};
 
 const anthropicHeaders = () => ({
   "x-api-key": process.env.ANTHROPIC_API_KEY,
@@ -16,10 +21,12 @@ const anthropicHeaders = () => ({
  * Claude's API does not accept raw audio, so speech-to-text is done with
  * OpenAI's Whisper model first, then Claude structures the transcript.
  */
-export const transcribeAudio = async (filePath) => {
+export const transcribeAudio = async (filePath, language) => {
+  requireApiKey("OPENAI_API_KEY");
   const form = new FormData();
   form.append("file", fs.createReadStream(filePath));
   form.append("model", "whisper-1");
+  if (SUPPORTED_LANGUAGES.includes(language)) form.append("language", language);
 
   const { data } = await axios.post(OPENAI_TRANSCRIBE_URL, form, {
     headers: {
@@ -36,6 +43,7 @@ export const transcribeAudio = async (filePath) => {
  * profile (craft type, years of experience, techniques, materials, bio).
  */
 export const structureArtisanProfile = async (rawTranscript) => {
+  requireApiKey("ANTHROPIC_API_KEY");
   const system = `You are helping digitize spoken interviews of Indian handicraft artisans for the DHAAGA
 platform. Given a raw transcript (which may be in Telugu, Hindi, Tamil, or English, and may
 be informal/colloquial), respond with ONLY a JSON object, no preamble, no markdown fences:
@@ -75,6 +83,7 @@ translate into the other three. If information for a field isn't present, use nu
  * verification).
  */
 export const classifyCraftImage = async (base64Image, mediaType, claimedCraftType) => {
+  requireApiKey("ANTHROPIC_API_KEY");
   const system = `You are a visual classifier for Telangana/Indian handicrafts (e.g. Kalamkari,
 Cheriyal painting, Kondapalli toys, Nirmal art/toys, and similar). Respond with ONLY JSON:
 { "tags": ["..."], "detectedCraftType": "...", "matchesClaim": true|false, "confidence": 0.0-1.0,
@@ -115,6 +124,7 @@ Cheriyal painting, Kondapalli toys, Nirmal art/toys, and similar). Respond with 
  * Used for on-the-fly UI content translation beyond the artisan profile flow.
  */
 export const translateText = async (text, targetLang) => {
+  requireApiKey("ANTHROPIC_API_KEY");
   const langNames = { en: "English", te: "Telugu", hi: "Hindi", ta: "Tamil" };
   const { data } = await axios.post(
     ANTHROPIC_URL,

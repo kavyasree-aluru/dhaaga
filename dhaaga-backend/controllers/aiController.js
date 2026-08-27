@@ -1,8 +1,9 @@
 import asyncHandler from "express-async-handler";
 import fs from "fs";
+import path from "path";
 import Artisan from "../models/Artisan.js";
 import Craft from "../models/Craft.js";
-import { transcribeAudio, structureArtisanProfile, classifyCraftImage, translateText } from "../utils/ai.js";
+import { transcribeAudio, structureArtisanProfile, classifyCraftImage, translateText, SUPPORTED_LANGUAGES } from "../utils/ai.js";
 
 // @route POST /api/ai/artisans/:id/interview
 // Item 7 + 8: upload a voice interview, transcribe it, translate it into
@@ -19,12 +20,23 @@ export const processVoiceInterview = asyncHandler(async (req, res) => {
     throw new Error("Artisan not found");
   }
 
-  const rawTranscript = await transcribeAudio(req.file.path);
+  if (req.user.role !== "admin" && String(artisan.user) !== String(req.user._id)) {
+    res.status(403);
+    throw new Error("Not authorized to process this artisan interview");
+  }
+
+  const language = req.body.language && req.body.language !== "auto" ? req.body.language : undefined;
+  if (language && !SUPPORTED_LANGUAGES.includes(language)) {
+    res.status(400);
+    throw new Error(`language must be one of: ${SUPPORTED_LANGUAGES.join(", ")}, or auto`);
+  }
+
+  const rawTranscript = await transcribeAudio(req.file.path, language);
   const { translations, structuredProfile } = await structureArtisanProfile(rawTranscript);
 
   artisan.audioInterviews.push({
     url: `/${req.file.path}`,
-    language: req.body.language || "auto",
+    language: language || "auto",
     transcript: translations,
     structuredProfile,
     processedAt: new Date(),
@@ -54,10 +66,19 @@ export const classifyCraft = asyncHandler(async (req, res) => {
     throw new Error("This craft has no images to classify");
   }
 
-  const imagePath = craft.images[0].replace(/^\//, "");
+  const imagePath = path.resolve(craft.images[0].replace(/^\//, ""));
   const buffer = fs.readFileSync(imagePath);
   const base64 = buffer.toString("base64");
-  const mediaType = imagePath.endsWith(".png") ? "image/png" : "image/jpeg";
+  const mediaType = {
+    ".png": "image/png",
+    ".webp": "image/webp",
+    ".jpg": "image/jpeg",
+    ".jpeg": "image/jpeg",
+  }[path.extname(imagePath).toLowerCase()];
+  if (!mediaType) {
+    res.status(400);
+    throw new Error("The craft image must be a JPG, PNG, or WebP file");
+  }
 
   const result = await classifyCraftImage(base64, mediaType, craft.craftType);
 
@@ -76,6 +97,10 @@ export const translate = asyncHandler(async (req, res) => {
   if (!text || !targetLang) {
     res.status(400);
     throw new Error("text and targetLang are required");
+  }
+  if (!SUPPORTED_LANGUAGES.includes(targetLang)) {
+    res.status(400);
+    throw new Error(`targetLang must be one of: ${SUPPORTED_LANGUAGES.join(", ")}`);
   }
   const translated = await translateText(text, targetLang);
   res.json({ success: true, translated });

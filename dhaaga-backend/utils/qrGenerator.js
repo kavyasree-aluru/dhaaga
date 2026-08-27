@@ -11,7 +11,7 @@ if (!fs.existsSync(QR_DIR)) fs.mkdirSync(QR_DIR, { recursive: true });
  */
 export const generateCraftQR = async (craftId, publicProvenanceId) => {
   const clientUrl = process.env.CLIENT_URL || "http://localhost:5173";
-  const targetUrl = `${clientUrl}/craft/${craftId}?verify=${publicProvenanceId}`;
+  const targetUrl = `${clientUrl}/story?craft=${craftId}&verify=${publicProvenanceId}`;
 
   const filePath = path.join(QR_DIR, `${craftId}.png`);
   await QRCode.toFile(filePath, targetUrl, {

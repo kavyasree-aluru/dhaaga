@@ -94,16 +94,19 @@ export const updateArtisan = asyncHandler(async (req, res) => {
 // @route GET /api/artisans/near?lng=..&lat=..&maxKm=25   (item 10: Cultural Map)
 export const getArtisansNear = asyncHandler(async (req, res) => {
   const { lng, lat, maxKm = 25 } = req.query;
-  if (!lng || !lat) {
+  const longitude = Number(lng);
+  const latitude = Number(lat);
+  const radiusKm = Number(maxKm);
+  if (!Number.isFinite(longitude) || !Number.isFinite(latitude) || !Number.isFinite(radiusKm) || radiusKm <= 0) {
     res.status(400);
-    throw new Error("lng and lat query params are required");
+    throw new Error("lng, lat, and a positive maxKm must be valid numbers");
   }
 
   const artisans = await Artisan.find({
     location: {
       $near: {
-        $geometry: { type: "Point", coordinates: [Number(lng), Number(lat)] },
-        $maxDistance: Number(maxKm) * 1000,
+        $geometry: { type: "Point", coordinates: [longitude, latitude] },
+        $maxDistance: radiusKm * 1000,
       },
     },
   });
