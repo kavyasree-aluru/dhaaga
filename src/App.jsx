@@ -5,6 +5,7 @@ import CraftStory from "./pages/CraftStory";
 import CulturalMap from "./pages/Map";
 import Artisan from "./pages/Artisan";
 import ArtisanInfo from "./pages/ArtisanInfo";
+import Auth from "./pages/Auth";
 
 function App() {
   const [showJoinModal, setShowJoinModal] = useState(false);
@@ -26,6 +27,7 @@ function App() {
         <a href="/explore">Explore</a>
         <a href="/map">Cultural Map</a>
         <a href="/artisan-info">For Artisans</a>
+        <a href="/auth">Sign In</a>
       </div>
 
       <button
@@ -176,6 +178,16 @@ function App() {
       <div className="app">
         {renderNavbar()}
         <ArtisanInfo />
+        {showJoinModal && renderModal()}
+      </div>
+    );
+  }
+
+  if (path === "/auth") {
+    return (
+      <div className="app">
+        {renderNavbar()}
+        <Auth />
         {showJoinModal && renderModal()}
       </div>
     );

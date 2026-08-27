@@ -1,4 +1,5 @@
 const API_URL = import.meta.env.VITE_API_URL || "/api";
+const AUTH_TOKEN_KEY = "dhaaga-token";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 const formCopy = {
@@ -111,6 +112,7 @@ function Artisan() {
       const response = await fetch(`${API_URL}/artisans`, { method: "POST", body: application });
       const result = await response.json();
       if (!response.ok) throw new Error(result.message || "Unable to submit application");
+      if (result.token) localStorage.setItem(AUTH_TOKEN_KEY, result.token);
       setSubmitted(true);
     } catch (error) {
       setSubmitError(error.message);

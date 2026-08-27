@@ -4,6 +4,7 @@ import nirmalImage from "../assets/nirmal-toys.jpg";
 import kondapalliImage from "../assets/kondapalli-toys.jpg";
 import cheriyalImage from "../assets/cheriyal-paintings.jpg";
 import kalamkariImage from "../assets/kalamkari.jpg";
+import { apiRequest } from "../lib/api";
 
 const API_URL = import.meta.env.VITE_API_URL || "/api";
 
@@ -96,6 +97,7 @@ const stories = {
 function CraftStory() {
   const [showCollection, setShowCollection] = useState(false);
   const [requested, setRequested] = useState(false);
+  const [supportError, setSupportError] = useState("");
   const [registeredStory, setRegisteredStory] = useState(null);
 
   const params = new URLSearchParams(window.location.search);
@@ -127,6 +129,7 @@ function CraftStory() {
           story1: profileStory,
           story2: `${artisan.name} has ${artisan.yearsOfExperience || 0} years of experience creating ${artisan.craftType}. Their work carries the knowledge and identity of their community.`,
           artisan: artisan.name,
+          artisanId: artisan._id,
           artisanLocation,
           artisanDescription: profileStory,
           experience: `${artisan.yearsOfExperience || 0} Years`,
@@ -355,7 +358,28 @@ function CraftStory() {
 
                     <button
                       className="support-buy-button"
-                      onClick={() => setRequested(true)}
+                      onClick={async () => {
+                        setSupportError("");
+                        if (!story.artisanId) {
+                          setRequested(true);
+                          return;
+                        }
+
+                        try {
+                          await apiRequest("/support", {
+                            method: "POST",
+                            body: JSON.stringify({
+                              type: "support",
+                              artisanId: story.artisanId,
+                              contactName: "DHAAGA visitor",
+                              message: `Interest in Handmade ${story.craft}`,
+                            }),
+                          });
+                          setRequested(true);
+                        } catch (error) {
+                          setSupportError(error.message);
+                        }
+                      }}
                     >
                       {requested
                         ? "✓ Request Sent"
@@ -375,6 +399,7 @@ function CraftStory() {
                     The artisan's craft deserves to be discovered.
                   </p>
                 )}
+                {supportError && <p className="request-message">{supportError}</p>}
 
               </div>
 
