@@ -88,11 +88,11 @@ In the `dhaaga` frontend, add an `.env`:
 ```
 VITE_API_URL=http://localhost:5000/api
 ```
-Then replace any hard-coded/mock artisan or craft data in `src/pages/*.jsx` with `fetch(`${import.meta.env.VITE_API_URL}/crafts`)` etc. The frontend project currently has no API calls at all — every page (`Explore.jsx`, `Artisan.jsx`, `Map.jsx`, `CraftStory.jsx`, `ArtisanInfo.jsx`) is using static/local data, so wiring these up is the main integration step.
+Then replace any hard-coded/mock artisan or craft data in `src/pages/*.jsx` with `fetch(`${import.meta.env.VITE_API_URL}/crafts`)` etc. The frontend project now has API integration — pages like `Explore.jsx`, `Artisan.jsx`, `Map.jsx`, `CraftStory.jsx`, and `Auth.jsx` fetch live data from the backend via `fetch()` and `apiRequest()`, providing a seamless connection to the database.
 
 ## Notes & next steps
 
 - File storage is local disk for now (fine for a demo/hackathon). Swap `middleware/upload.js`'s `diskStorage` for `multer-s3` when you need production durability.
 - The provenance "ledger" is a simple SHA-256 hash chain stored in MongoDB — good enough to detect tampering, not a blockchain.
 - Offline sync assumes the frontend queues actions (in IndexedDB or similar) while offline and flushes them through `POST /api/sync` on reconnect. Large files (photos/audio) should still be uploaded directly once connectivity returns, since this endpoint is for JSON payloads only.
-- Run `npm run seed` any time to reset a demo artisan account: `lakshmi@demo.dhaaga` / `password123`.
+- Run `npm run seed` any time to reset the demo artisan profiles used for testing and product demos.

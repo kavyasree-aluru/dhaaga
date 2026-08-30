@@ -6,15 +6,35 @@ import {
   useMap,
 } from "react-leaflet";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
+import { normalizeCraftCategory } from "../lib/craftCategories";
 import "../App.css";
 import nirmalImage from "../assets/nirmal-toys.jpg";
 import kondapalliImage from "../assets/kondapalli-toys.jpg";
 import cheriyalImage from "../assets/cheriyal-paintings.jpg";
 import kalamkariImage from "../assets/kalamkari.jpg";
+
+const API_URL = import.meta.env.VITE_API_URL || "/api";
+const API_ORIGIN = API_URL.replace(/\/api\/?$/, "");
+
+const getImageUrl = (image, craftType) => {
+  if (!image) {
+    const fallback = {
+      "Wood Craft": nirmalImage,
+      Painting: cheriyalImage,
+      Textile: kalamkariImage,
+    };
+
+    return fallback[craftType] || nirmalImage;
+  }
+
+  if (/^(https?:|data:|blob:)/i.test(image)) return image;
+  return `${API_ORIGIN}${image.startsWith("/") ? image : `/${image}`}`;
+};
 
 delete L.Icon.Default.prototype._getIconUrl;
 
@@ -38,8 +58,39 @@ function MapFocus({ position }) {
 }
 
 function CulturalMap() {
+  const navigate = useNavigate();
   const [selectedCraft, setSelectedCraft] = useState(null);
-  const crafts = [
+  const [registeredArtisans, setRegisteredArtisans] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadError, setLoadError] = useState("");
+
+  useEffect(() => {
+    const loadNearArtisans = async () => {
+      try {
+        const nearResponse = await fetch(`${API_URL}/artisans/near?lng=78.5&lat=17.5&maxKm=2000`);
+        if (!nearResponse.ok) {
+          throw new Error("Nearby artisans endpoint unavailable");
+        }
+        const nearResult = await nearResponse.json();
+        setRegisteredArtisans(nearResult.artisans || []);
+      } catch (error) {
+        try {
+          const fallbackResponse = await fetch(`${API_URL}/artisans`);
+          if (!fallbackResponse.ok) throw new Error("Unable to load artisan locations");
+          const fallbackResult = await fallbackResponse.json();
+          setRegisteredArtisans(fallbackResult.artisans || []);
+        } catch (fallbackError) {
+          setLoadError(fallbackError.message || error.message);
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadNearArtisans();
+  }, []);
+
+  const staticCrafts = [
     {
       id: "nirmal",
       name: "Nirmal Wooden Toys",
@@ -72,15 +123,37 @@ function CulturalMap() {
       type: "Textile",
       image: kalamkariImage,
     },
-    {
-      id: "lakshmi-devi",
-      name: "Lakshmi Devi",
-      location: "Mangalagiri, Andhra Pradesh",
-      position: [16.4308, 80.5684],
-      type: "Handloom Weaving",
-      image: "https://houseofleela.com/cdn/shop/articles/mangalgiri.webp?v=1708747087",
-    },
   ];
+
+  const liveCrafts = registeredArtisans
+    .filter((artisan) => artisan.isApproved !== false && artisan.isHidden !== true)
+    .map((artisan) => {
+      const category = normalizeCraftCategory(artisan.craftType);
+      const coords = artisan.location?.coordinates;
+      const isValidPoint = Array.isArray(coords) && coords.length >= 2 && coords.every((value) => Number.isFinite(value));
+      const fallbackPosition = {
+        "Wood Craft": [19.096, 78.344],
+        Painting: [18.106, 79.263],
+        Textile: [16.187, 81.138],
+        "Palm-Leaf Weaving & Eco Art": [16.4308, 80.5684],
+        Pottery: [17.4, 78.6],
+      }[category] || [17.5, 78.5];
+
+      return {
+        id: artisan._id,
+        name: artisan.name,
+        location: [artisan.location?.village, artisan.location?.district, artisan.location?.state]
+          .filter(Boolean)
+          .join(", ") || "Location not provided",
+        position: isValidPoint && coords[0] !== 0 && coords[1] !== 0
+          ? [coords[1], coords[0]]
+          : fallbackPosition,
+        type: category,
+        image: getImageUrl(artisan.profilePhoto, category),
+      };
+    });
+
+  const crafts = liveCrafts.length > 0 ? liveCrafts : staticCrafts;
 
   return (
     <div className="map-page">
@@ -111,11 +184,13 @@ function CulturalMap() {
             cultural story connected to it.
           </p>
 
+          {loadError && <p style={{ color: "#8b4b31", marginBottom: "12px" }}>{loadError}</p>}
+
           <div className="map-craft-list">
-            {crafts.map((craft) => (
+            {isLoading ? <p>Loading artisan locations...</p> : crafts.map((craft) => (
               <button
                 className={`map-craft-item ${selectedCraft?.id === craft.id ? "selected" : ""}`}
-                key={craft.name}
+                key={craft.id || craft.name}
                 type="button"
                 onClick={() => setSelectedCraft(craft)}
                 aria-pressed={selectedCraft?.id === craft.id}
@@ -143,9 +218,9 @@ function CulturalMap() {
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
 
-            {crafts.map((craft) => (
+            {!isLoading && crafts.map((craft) => (
               <Marker
-                key={craft.name}
+                key={craft.id || craft.name}
                 position={craft.position}
                 eventHandlers={{ click: () => setSelectedCraft(craft) }}
               >
@@ -156,9 +231,12 @@ function CulturalMap() {
                   {craft.location}
                   <br />
                   <br />
-                  <a href={`/story?craft=${craft.id}`}>
+                  <button
+                    onClick={() => navigate(`/story/${craft.id}`)}
+                    style={{ background: "#b85334", color: "white", border: "none", padding: "8px 16px", borderRadius: "4px", cursor: "pointer", fontSize: "12px", fontWeight: "bold" }}
+                  >
                     Discover Story →
-                  </a>
+                  </button>
                 </Popup>
               </Marker>
             ))}

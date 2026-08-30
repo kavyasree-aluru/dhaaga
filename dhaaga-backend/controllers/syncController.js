@@ -83,12 +83,21 @@ export const syncOperations = asyncHandler(async (req, res) => {
         await provenance.save();
         results.push({ clientTempId, status: "created" });
       } else if (entity === "support") {
-        const existing = await Support.findOne({ _id: payload._id }).catch(() => null);
+        const idempotencyKey = payload?.clientTempId || payload?._id;
+        const existing = idempotencyKey
+          ? await Support.findOne({ $or: [{ clientTempId: idempotencyKey }, { _id: idempotencyKey }] }).catch(() => null)
+          : null;
+
         if (existing) {
           results.push({ clientTempId, status: "already_synced", serverId: existing._id });
           continue;
         }
-        const support = await Support.create({ ...payload, customer: req.user?._id });
+
+        const support = await Support.create({
+          ...payload,
+          clientTempId: payload?.clientTempId || clientTempId || payload?._id,
+          customer: req.user?._id,
+        });
         results.push({ clientTempId, status: "created", serverId: support._id });
       } else {
         results.push({ clientTempId, status: "error", error: `Unknown entity type: ${entity}` });

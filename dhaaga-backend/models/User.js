@@ -14,6 +14,8 @@ const userSchema = new mongoose.Schema(
     phone: { type: String, trim: true },
     preferredLanguage: { type: String, default: "en" },
     artisanProfile: { type: mongoose.Schema.Types.ObjectId, ref: "Artisan" },
+    resetPasswordToken: { type: String, select: false },
+    resetPasswordExpires: { type: Date, select: false },
     isActive: { type: Boolean, default: true },
   },
   { timestamps: true }

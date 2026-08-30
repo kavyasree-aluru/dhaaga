@@ -2,6 +2,8 @@ import QRCode from "qrcode";
 import fs from "fs";
 import path from "path";
 
+import { getUploadPath } from "../middleware/upload.js";
+
 const QR_DIR = "uploads/qrcodes";
 if (!fs.existsSync(QR_DIR)) fs.mkdirSync(QR_DIR, { recursive: true });
 
@@ -20,5 +22,5 @@ export const generateCraftQR = async (craftId, publicProvenanceId) => {
     color: { dark: "#1a1a1a", light: "#ffffff" },
   });
 
-  return { filePath: `/${filePath}`, targetUrl };
+  return { filePath: getUploadPath(filePath), targetUrl };
 };

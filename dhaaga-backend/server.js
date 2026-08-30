@@ -18,15 +18,53 @@ import provenanceRoutes from "./routes/provenanceRoutes.js";
 import qrRoutes from "./routes/qrRoutes.js";
 import supportRoutes from "./routes/supportRoutes.js";
 import syncRoutes from "./routes/syncRoutes.js";
+import newsletterRoutes from "./routes/newsletterRoutes.js";
 
 dotenv.config();
+
+if (!process.env.JWT_SECRET) {
+  throw new Error("Missing required environment variable: JWT_SECRET");
+}
+if (!process.env.MONGODB_URI) {
+  throw new Error("Missing required environment variable: MONGODB_URI");
+}
+
 await connectDB();
 
 const app = express();
+const allowedOrigins = [
+  process.env.CLIENT_URL,
+  "http://localhost:5173",
+  "http://127.0.0.1:5173",
+  "http://localhost:5174",
+  "http://127.0.0.1:5174",
+  "http://localhost:5175",
+  "http://127.0.0.1:5175",
+  "http://localhost:5176",
+  "http://127.0.0.1:5176",
+].filter(Boolean);
+
+const isAllowedOrigin = (origin) => {
+  if (!origin) return true;
+  if (allowedOrigins.includes(origin)) return true;
+
+  return /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin) && /:(517[3-9]|518\d?)$/.test(origin);
+};
 
 // Item 1: Backend/API core setup
+app.set("trust proxy", 1);
 app.use(helmet({ crossOriginResourcePolicy: false })); // allow serving uploaded images cross-origin
-app.use(cors({ origin: process.env.CLIENT_URL || "http://localhost:5173", credentials: true }));
+app.use(cors({
+  origin: (origin, callback) => {
+    if (isAllowedOrigin(origin)) {
+      callback(null, true);
+      return;
+    }
+
+    callback(new Error("CORS policy rejected this origin"));
+  },
+  credentials: true,
+}));
 app.use(express.json({ limit: "2mb" }));
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan(process.env.NODE_ENV === "production" ? "combined" : "dev"));
@@ -48,6 +86,7 @@ app.use("/api/provenance", provenanceRoutes);
 app.use("/api/qr", qrRoutes);
 app.use("/api/support", supportRoutes);
 app.use("/api/sync", syncRoutes);
+app.use("/api/newsletter", newsletterRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

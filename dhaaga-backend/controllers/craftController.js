@@ -30,6 +30,7 @@ export const createCraft = asyncHandler(async (req, res) => {
     images,
     stock,
     clientTempId,
+    status: "published",
   });
 
   // Item 11: start the provenance chain the moment a craft is created

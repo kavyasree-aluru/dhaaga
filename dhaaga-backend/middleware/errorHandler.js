@@ -1,9 +1,9 @@
-export const notFound = (req, res, next) => {
+export const notFound = (req, res) => {
   res.status(404);
-  next(new Error(`Route not found - ${req.originalUrl}`));
+  res.json({ success: false, message: `Route not found - ${req.originalUrl}` });
 };
 
-export const errorHandler = (err, req, res, next) => {
+export const errorHandler = (err, req, res) => {
   let statusCode = res.statusCode && res.statusCode !== 200 ? res.statusCode : 500;
   let message = err.message;
 

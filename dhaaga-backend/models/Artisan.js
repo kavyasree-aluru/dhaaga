@@ -18,7 +18,7 @@ const artisanSchema = new mongoose.Schema(
 
     name: { type: String, required: true, trim: true },
     craftType: { type: String, required: true, trim: true }, // e.g. "Kalamkari", "Cheriyal painting"
-    contactNumber: { type: String, trim: true },
+    contactNumber: { type: String, trim: true, index: true },
     bio: multilingualTextSchema,
     yearsOfExperience: { type: Number, default: 0 },
 
@@ -52,6 +52,8 @@ const artisanSchema = new mongoose.Schema(
     },
 
     verified: { type: Boolean, default: false },
+    isApproved: { type: Boolean, default: true },
+    isHidden: { type: Boolean, default: false },
     rating: { type: Number, default: 0 },
   },
   { timestamps: true }

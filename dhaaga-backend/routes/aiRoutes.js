@@ -13,6 +13,6 @@ router.post(
   processVoiceInterview
 );
 router.post("/crafts/:id/classify", protect, authorize("artisan", "admin"), classifyCraft);
-router.post("/translate", translate);
+router.post("/translate", protect, translate);
 
 export default router;

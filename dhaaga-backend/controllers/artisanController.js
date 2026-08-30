@@ -12,12 +12,45 @@ export const registerArtisan = asyncHandler(async (req, res) => {
     throw new Error("name and craftType are required");
   }
 
+  const normalizedName = String(name).trim();
+  const normalizedCraftType = String(craftType).trim();
+  const normalizedPhone = String(phone || "").trim();
+  const normalizedVillage = String(village || "").trim();
+  const normalizedDistrict = String(district || "").trim();
+  const normalizedState = String(state || "").trim();
+  const recentCutoff = new Date(Date.now() - 24 * 60 * 60 * 1000);
+
   if (req.user) {
     const existing = await Artisan.findOne({ user: req.user._id });
     if (existing) {
       res.status(409);
       throw new Error("This account already has an artisan profile");
     }
+  }
+
+  const recentDuplicateChecks = [];
+  if (normalizedPhone) {
+    recentDuplicateChecks.push({
+      contactNumber: normalizedPhone,
+      createdAt: { $gte: recentCutoff },
+    });
+  }
+
+  if (normalizedName && normalizedCraftType) {
+    recentDuplicateChecks.push({
+      name: { $regex: new RegExp(`^${normalizedName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}$`, "i") },
+      craftType: { $regex: new RegExp(`^${normalizedCraftType.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}$`, "i") },
+      createdAt: { $gte: recentCutoff },
+    });
+  }
+
+  const duplicateProfile = recentDuplicateChecks.length
+    ? await Artisan.findOne({ $or: recentDuplicateChecks })
+    : null;
+
+  if (duplicateProfile) {
+    res.status(409);
+    throw new Error("An artisan profile with this contact number already exists");
   }
 
   const artisan = await Artisan.create({
@@ -35,6 +68,8 @@ export const registerArtisan = asyncHandler(async (req, res) => {
       district,
       state,
     },
+    isApproved: true,
+    isHidden: false,
   });
 
   if (req.user) {

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function ArtisanInfo() {
+  const navigate = useNavigate();
   const [language, setLanguage] = useState(() => ["en", "te", "hi"].includes(localStorage.getItem("dhaaga-language")) ? localStorage.getItem("dhaaga-language") : "en");
   const [isSpeaking, setIsSpeaking] = useState(false);
   const guidance = {
@@ -36,85 +38,53 @@ function ArtisanInfo() {
   useEffect(() => () => window.speechSynthesis?.cancel(), []);
 
   return (
-    <div style={{ padding: "30px 20px", maxWidth: "900px", margin: "0 auto", color: "#3d2314", textAlign: "center" }}>
-      
-      {/* Accessibility & Voice Banner for Evaluators */}
-      <div style={{ backgroundColor: "#e8ded2", padding: "12px 20px", borderRadius: "30px", display: "inline-flex", alignItems: "center", gap: "15px", marginBottom: "25px", border: "1px solid #d4c3b3" }}>
-        <span style={{ fontSize: "14px", fontWeight: "bold" }}>🌐 Language / भाषा:</span>
-        <select value={language} onChange={selectLanguage} style={{ padding: "4px 8px", borderRadius: "4px", border: "1px solid #3d2314", background: "#fcf8f2", color: "#3d2314", cursor: "pointer" }}>
-          <option value="en" style={{ backgroundColor: "#fcf8f2", color: "#3d2314" }}>English</option>
-          <option value="te" style={{ backgroundColor: "#fcf8f2", color: "#3d2314" }}>తెలుగు (Telugu)</option>
-          <option value="hi" style={{ backgroundColor: "#fcf8f2", color: "#3d2314" }}>हिंदी (Hindi)</option>
+    <div className="artisan-info-page">
+      <div className="artisan-info-topbar">
+        <span className="artisan-language-label">🌐 Language / भाषा:</span>
+        <select value={language} onChange={selectLanguage} className="artisan-language-select">
+          <option value="en">English</option>
+          <option value="te">తెలుగు (Telugu)</option>
+          <option value="hi">हिंदी (Hindi)</option>
         </select>
-        <button onClick={togglePageSpeech} aria-pressed={isSpeaking} style={{ backgroundColor: "#b85334", color: "#fff", border: "none", padding: "6px 14px", borderRadius: "20px", cursor: "pointer", fontSize: "13px", display: "flex", alignItems: "center", gap: "6px" }}>
+        <button onClick={togglePageSpeech} aria-pressed={isSpeaking} className="artisan-voice-button">
           {isSpeaking ? "🔇 Stop Voice Guidance" : "🔊 Listen Page (Voice Guidance)"}
         </button>
       </div>
 
-      <h1 style={{ fontFamily: "serif", fontSize: "36px", margin: "0 0 10px", color: "#3d2314" }}>
-        Partner with <em>DHAAGA</em>
-      </h1>
-      <p style={{ fontSize: "16px", color: "#5a4033", marginBottom: "35px" }}>
-        Simple, safe, and built for traditional creators.
-      </p>
-
-      {/* Visual 3-Step Solution Grid */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "20px", marginBottom: "40px" }}>
-        
-        <div style={{ padding: "25px 15px", backgroundColor: "#f5efe6", borderRadius: "12px", border: "1px solid #d4c3b3" }}>
-          <div style={{ fontSize: "40px", marginBottom: "10px" }}>💰</div>
-          <h3 style={{ fontFamily: "serif", margin: "0 0 8px 0", color: "#b85334" }}>Fair Direct Income</h3>
-          <p style={{ fontSize: "13px", color: "#5a4033", margin: 0, lineHeight: "1.5" }}>
-            No middlemen. Get 100% fair payment directly to your account.
-          </p>
-        </div>
-
-        <div style={{ padding: "25px 15px", backgroundColor: "#f5efe6", borderRadius: "12px", border: "1px solid #d4c3b3" }}>
-          <div style={{ fontSize: "40px", marginBottom: "10px" }}>🛡️</div>
-          <h3 style={{ fontFamily: "serif", margin: "0 0 8px 0", color: "#b85334" }}>Safe Heritage Tag</h3>
-          <p style={{ fontSize: "13px", color: "#5a4033", margin: 0, lineHeight: "1.5" }}>
-            Digital stamp protecting your craft from fake copies.
-          </p>
-        </div>
-
-        <div style={{ padding: "25px 15px", backgroundColor: "#f5efe6", borderRadius: "12px", border: "1px solid #d4c3b3" }}>
-          <div style={{ fontSize: "40px", marginBottom: "10px" }}>🌟</div>
-          <h3 style={{ fontFamily: "serif", margin: "0 0 8px 0", color: "#b85334" }}>Global Name</h3>
-          <p style={{ fontSize: "13px", color: "#5a4033", margin: 0, lineHeight: "1.5" }}>
-            Your picture, story, and art shown proudly to global buyers.
-          </p>
-        </div>
-
+      <div className="artisan-info-header">
+        <h1>
+          Partner with <em>DHAAGA</em>
+        </h1>
+        <p>Simple, safe, and built for traditional creators.</p>
       </div>
 
-      {/* Voice-First Registration Callout */}
-      <div style={{ backgroundColor: "#3d2314", color: "#fcf8f2", padding: "30px 20px", borderRadius: "12px", textAlign: "center" }}>
-        <h2 style={{ fontFamily: "serif", marginTop: 0, color: "#fcf8f2", fontSize: "24px" }}>
-          Join in 2 Minutes using Voice
-        </h2>
-        <p style={{ fontSize: "14px", opacity: 0.9, marginBottom: "20px" }}>
-          No typing required. Speak in your language to register.
-        </p>
-        <button
-          onClick={() => (window.location.href = `/artisan?voice=1&lang=${language}`)}
-          style={{
-            padding: "12px 28px",
-            fontSize: "15px",
-            fontWeight: "bold",
-            backgroundColor: "#b85334",
-            color: "#ffffff",
-            border: "none",
-            borderRadius: "30px",
-            cursor: "pointer",
-            display: "inline-flex",
-            alignItems: "center",
-            gap: "8px"
-          }}
-        >
-          🎙️ Speak & Register →
+      <div className="artisan-benefits">
+        <div className="artisan-benefit-card">
+          <div className="benefit-icon">💰</div>
+          <h3>Fair Direct Income</h3>
+          <p>No middlemen. Get 100% fair payment directly to your account.</p>
+        </div>
+
+        <div className="artisan-benefit-card">
+          <div className="benefit-icon">🛡️</div>
+          <h3>Safe Heritage Tag</h3>
+          <p>Digital stamp protecting your craft from fake copies.</p>
+        </div>
+
+        <div className="artisan-benefit-card">
+          <div className="benefit-icon">🌟</div>
+          <h3>Global Name</h3>
+          <p>Your picture, story, and art shown proudly to global buyers.</p>
+        </div>
+      </div>
+
+      <div className="artisan-cta">
+        <h2>Join in 2 Minutes using Voice</h2>
+        <p>No typing required. Speak in English, Telugu or Hindi to register your craft.</p>
+        <button onClick={() => navigate(`/artisan?voice=1&lang=${language}`)}>
+          🎙️ Speak &amp; Register →
         </button>
       </div>
-
     </div>
   );
 }

@@ -25,7 +25,9 @@ export const protect = asyncHandler(async (req, res, next) => {
     next();
   } catch (err) {
     res.status(401);
-    throw new Error("Not authorized, invalid or expired token");
+    // Preserve the original error message if it's not a JWT error
+    const message = err.name === "JsonWebTokenError" ? "Not authorized, invalid or expired token" : err.message;
+    throw new Error(message);
   }
 });
 

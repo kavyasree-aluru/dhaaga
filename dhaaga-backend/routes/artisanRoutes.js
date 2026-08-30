@@ -17,7 +17,7 @@ router.get("/near", getArtisansNear); // must be before /:id
 router.get("/", getArtisans);
 router.get("/:id", getArtisanById);
 
-router.post("/", upload.single("profilePhoto"), registerArtisan);
+router.post("/", protect, upload.single("profilePhoto"), registerArtisan);
 router.put("/:id", protect, upload.single("profilePhoto"), updateArtisan);
 router.delete("/:id", protect, authorize("artisan", "admin"), deleteArtisan);
 router.patch("/:id/verify", protect, authorize("admin"), verifyArtisan);
